@@ -1,7 +1,0 @@
-VECTOR
-	enable_if
-	is_integral
-	iterator
-	const_iterator
-	reverse_iterator
-	const_resverse_iterator
