@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/07 19:10:14 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/09 19:12:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
-
+#include "../Utils/utils.hpp"
 namespace ft
 {
 	// Use Namespace "ft" to differentiate from the STL Vector //
@@ -313,7 +313,7 @@ namespace ft
 			/* Range constructor, Constructs a container with as many elements as the range [first,last),
 					with each element constructed from its corresponding element in that range, in the same order.*/
 		template <class InputIterator>
-			vector (InputIterator first, typename std::enable_if< !std::is_integral< InputIterator >::value, InputIterator >::type last, const allocator_type& alloc = allocator_type())
+			vector (InputIterator first, typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type last, const allocator_type& alloc = allocator_type())
 				: _capacity(0), _size(0), _array(NULL)
 			{
 				// std::cout << "Range constructor" << std::endl;
@@ -469,7 +469,7 @@ namespace ft
 
 
 		template <class InputIterator>	// Assigns new contents to the vector, replacing its current contents, and modifying its size accordingly.
-			void assign (InputIterator first, typename std::enable_if< !std::is_integral< InputIterator >::value, InputIterator >::type last)
+			void assign (InputIterator first, typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type last)
 			{
 				InputIterator tmp = first;
 				size_type sz = 0;
@@ -530,20 +530,81 @@ namespace ft
 				this->_size--;
 			}
 
-			iterator insert (iterator position, const value_type& val) // The vector is extended by inserting new elements before the element at the specified position.
+			iterator insert (iterator position, const value_type& val) // Insert one elements // The vector is extended by inserting new elements before the element at the specified position.
 			{
+				int pos = 0;
+				for (iterator it = this->begin(); it != position; it++)
+					pos++;
+				this->push_back(val);
+				iterator pos_ret = this->begin();
+				for (size_t i = 0; i < pos; i++)
+					pos_ret++;
+				iterator it_tmp = this->end();
 
+				while (it_tmp != pos_ret)
+				{
+					*it_tmp = *(it_tmp - 1);
+					it_tmp--;
+				}
+				*pos_ret = val;
+				return (pos_ret);
 			}
 
-			void insert (iterator position, size_type n, const value_type& val)
+			void insert (iterator position, size_type n, const value_type& val) // Insert fill elements
 			{
+				int i = 0;
+				int pos = 0;
 
+				for (iterator it = this->begin(); it != position; it++)
+					pos++;
+
+				if (n + this->_size > this->_capacity)
+				{
+					if (n + this->_size <= this->_size * 2)
+						this->reserve(this->_capacity * 2);
+					else
+						this->reserve(n + this->_size);
+				}
+				iterator pos_ret = this->begin();
+				for (size_t i = 0; i < pos; i++)
+					pos_ret++;
+
+				while (i < n)
+				{
+					pos_ret = this->insert(pos_ret, val);
+					i++;
+				}
 			}
 
 		template <class InputIterator>
-			void insert (iterator position, InputIterator first, InputIterator last)
+			void insert (iterator position, InputIterator first, typename ft::enable_if< !ft::is_integral< InputIterator >::value, InputIterator >::type last) // Insert range elements
 			{
+				size_type i = 0;
+				size_type pos = 0;
+				size_type n = 0;
 
+				for (InputIterator it(first); it != last; it++)
+					n++;
+				for (iterator it = this->begin(); it != position; it++)
+					pos++;
+
+				if (n + this->_size > this->_capacity)
+				{
+					if (n + this->_size <= this->_size * 2)
+						this->reserve(this->_capacity * 2);
+					else
+						this->reserve(n + this->_size);
+				}
+				iterator pos_ret = this->begin();
+				for (size_t i = 0; i < pos; i++)
+					pos_ret++;
+
+				while (first != last)
+				{
+					pos_ret = this->insert(pos_ret, *first);
+					pos_ret++;
+					first++;
+				}
 			}
 
 			iterator erase (iterator position) // Removes from the vector either a single element (position) or a range of elements ([first,last)).
@@ -605,10 +666,76 @@ namespace ft
 				this->_size = 0;
 			}
 
-
-
-																		// UTILS //
-
+																		// ALLOCATOR //
+			allocator_type get_allocator() const
+			{
+				allocator_type ret(this->_alloc);
+				return (ret);
+			}
 		};
+	template <class T, class Alloc>
+		bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			typename vector<T, Alloc>::const_iterator first1 = lhs.cbegin();
+			typename vector<T, Alloc>::const_iterator first2 = rhs.cbegin();
+
+			if (lhs.size() == rhs.size())
+			{
+				while (first1 != lhs.cend())
+				{
+					if (*first1 != *first2)
+						return (false);
+					first1++;
+					first2++;
+				}
+				if (first1 == lhs.cend() && first2 == rhs.cend())
+					return (true);
+			}
+			return (false);
+		}
+
+	template <class T, class Alloc>
+		bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			return !(lhs == rhs);
+		}
+
+	template <class T, class Alloc>
+		bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			typename vector<T, Alloc>::const_iterator first1 = lhs.cbegin();
+			typename vector<T, Alloc>::const_iterator first2 = rhs.cbegin();
+
+			while (first1 != lhs.cend())
+			{
+				if (first2 == rhs.cend() || *first2 < *first1)
+					return (false);
+				else if (*first1 < *first2)
+					return (true);
+				first1++;
+				first2++;
+			}
+			return !(first2 == rhs.cend());
+		}
+
+	template <class T, class Alloc>
+		bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			return !(rhs < lhs);
+		}
+
+	template <class T, class Alloc>
+		bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			return (rhs < lhs);
+		}
+
+	template <class T, class Alloc>
+		bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+		{
+			return !(lhs < rhs);
+		}
+	template <class T, class Alloc>
+		void swap (vector<T,Alloc>& x, vector<T,Alloc>& y)	{x.swap(y);}
 }
 #endif
