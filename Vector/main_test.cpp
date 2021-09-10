@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/09 19:36:06 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/10 20:32:58 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,9 +504,9 @@ void modifier_test()
 		display_vector(v2, v1);
 		display_info(v2, v1);
 
-		std::cout << PURPLE << "v.erase(v.end() - 1)\n" << NC;
-		std::cout << "Return ft:  " << *(v1.erase(v1.end() - 1)) << std::endl;
-		std::cout << "Return std: " << *(v2.erase(v2.end() - 1)) << std::endl;
+		std::cout << PURPLE << "v.erase(v.end() - 2)\n" << NC;
+		std::cout << "Return ft:  " << *(v1.erase(v1.end() - 2)) << std::endl;
+		std::cout << "Return std: " << *(v2.erase(v2.end() - 2)) << std::endl;
 		display_vector(v2, v1);
 		display_info(v2, v1);
 
@@ -529,9 +529,9 @@ void modifier_test()
 		display_vector(v2, v1);
 		display_info(v2, v1);
 
-		std::cout << PURPLE << "v.erase(v.end() - 3, v.end())\n" << NC;
-		std::cout << "Return ft:  " << *(v1.erase(v1.end() - 3 , v1.end())) << std::endl;
-		std::cout << "Return std: " << *(v2.erase(v2.end() - 3 , v2.end())) << std::endl;
+		std::cout << PURPLE << "v.erase(v.end() - 3, v.end() - 2)\n" << NC;
+		std::cout << "Return ft:  " << *(v1.erase(v1.end() - 3 , v1.end() - 2)) << std::endl;
+		std::cout << "Return std: " << *(v2.erase(v2.end() - 3 , v2.end() - 2)) << std::endl;
 		display_vector(v2, v1);
 		display_info(v2, v1);
 	}
@@ -560,9 +560,9 @@ void modifier_test()
 			std::cout << "Return ft:  " << *(v1.insert(v1.end() - 1, 79)) << std::endl;
 			std::cout << "Return std: " << *(v2.insert(v2.end() - 1, 79)) << std::endl << std::endl;
 
-			std::cout << PURPLE << "v.insert(v.end(), 25))\n" << NC;
-			std::cout << "Return ft:  " << *(v1.insert(v1.end(), 25)) << std::endl;
-			std::cout << "Return std: " << *(v2.insert(v2.end(), 25)) << std::endl << std::endl;
+			std::cout << PURPLE << "v.insert(v.end() - 2, 25))\n" << NC;
+			std::cout << "Return ft:  " << *(v1.insert(v1.end() - 2, 25)) << std::endl;
+			std::cout << "Return std: " << *(v2.insert(v2.end() - 2, 25)) << std::endl << std::endl;
 
 			display_vector(v2, v1);
 			display_info(v2, v1);
@@ -746,7 +746,7 @@ void non_member_function_overloads_test()
 
 	v1.pop_back();
 	v3.pop_back();
-	std::cout << PURPLE << "V1 and V3 pop_back()\n" << NC;
+	std::cout << PURPLE << "FT_V1 and STD_V1 pop_back()\n" << NC;
 
 	std::cout << CYAN << "FT V1 < V2  : " << NC << (v1 < v2);
 	std::cout << CYAN << " | STD V1 < V2  : " << NC << (v3 < v4);
@@ -787,6 +787,19 @@ int main()
 	modifier_test();
 	allocator_test();
 	non_member_function_overloads_test();
+
+	// ft::vector<int> v1;
+	// std::vector<int> v2;
+	// for (size_t i = 0; i < 15; i++)
+	// {
+	// 	v1.push_back(i); v2.push_back(i);
+	// }
+
+	// for (ft::vector<int>::reverse_iterator rit = v1.rbegin(); rit != v1.rend(); rit++)
+	// 	std::cout << *rit << "  ";
+	// std::cout << "\n\n";
+
+
 	std::cout << "END MAIN : "<< test << " test ->" << GREEN << ok << " OK  " << RED << ko << " KO" << NC << std::endl;
 	return (0);
 }
