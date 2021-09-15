@@ -6,12 +6,12 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:04:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/10 20:41:51 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/15 14:47:57 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UTILS_HPP
-#define UTILS_HPP
+# define UTILS_HPP
 
 # include <iostream>
 # include <string>
@@ -120,17 +120,17 @@ namespace ft
 	template <class T1, class T2>
 		struct pair
 		{
-			T1 first_type;
-			T2 second_type;
+			T1 first;
+			T2 second;
 
-			pair() : first_type(), second_type() {}
-			template<class U, class V> pair (const pair<U,V>& pr) : first_type(pr.first_type), second_type(pr.second_type) {}
-			pair (const T1& a, const T2& b) : first_type(a), second_type(b) {}
+			pair() : first(), second() {}
+			template<class U, class V> pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+			pair (const T1& a, const T2& b) : first(a), second(b) {}
 
 			pair& operator= (const pair& pr)
 			{
-				first_type = pr.first_type;
-				second_type = pr.second_type;
+				first = pr.first;
+				second = pr.second;
 
 				return *this;
 			}
@@ -157,7 +157,6 @@ namespace ft
 
 	template <class T1,class T2>
 		pair<T1,T2> make_pair (T1 x, T2 y) {return (pair<T1,T2>(x,y));}
-
-
 }
+
 #endif

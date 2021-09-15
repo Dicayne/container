@@ -6,22 +6,13 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/10 20:32:58 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/15 16:08:33 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
+#include "../Utils/colors.hpp"
 #include <vector>
-
-// COLORS //
-#define BLACK "\033[0;30m"
-#define RED "\033[0;31m"
-#define GREEN "\033[32m"
-#define YELLOW "\033[33;33m"
-#define BLUE "\033[0;34m"
-#define PURPLE "\033[35m"
-#define CYAN "\033[1;36m"
-#define NC "\033[0;37m"
 
 int test = 0;
 int ok = 0;
@@ -696,24 +687,24 @@ void allocator_test()
 
 void disp_vec_std(std::vector<int> &std1_v, std::vector<int> &std2_v)
 {
-	std::cout << "STD_VECTORS :\nV1: ";
-	for (std::vector<int>::iterator it = std2_v.begin(); it != std2_v.end(); it++)
-		std::cout << *it << "  ";
-	std::cout << "\n Size: "<< std2_v.size() << "	Capacity: " << std2_v.capacity() << "\nV2: ";
+	std::cout << "\nSTD_VECTORS :\nV1: ";
 	for (std::vector<int>::iterator it = std1_v.begin(); it != std1_v.end(); it++)
 		std::cout << *it << "  ";
-	std::cout << "\n Size: "<< std1_v.size() << "	Capacity: " << std1_v.capacity() << "\n\n";
+	std::cout << "\n Size: "<< std1_v.size() << "	Capacity: " << std1_v.capacity() << "\nV2: ";
+	for (std::vector<int>::iterator it = std2_v.begin(); it != std2_v.end(); it++)
+		std::cout << *it << "  ";
+	std::cout << "\n Size: "<< std2_v.size() << "	Capacity: " << std2_v.capacity() << "\n\n";
 }
 
 void disp_vec_ft(ft::vector<int> &ft1_v, ft::vector<int> &ft2_v)
 {
 	std::cout << "FT_VECTORS :\nV1: ";
-	for (ft::vector<int>::iterator it = ft2_v.begin(); it != ft2_v.end(); it++)
-		std::cout << *it << "  ";
-	std::cout << "\n Size: "<< ft2_v.size() << "	Capacity: " << ft2_v.capacity() << "\nV2: ";
 	for (ft::vector<int>::iterator it = ft1_v.begin(); it != ft1_v.end(); it++)
 		std::cout << *it << "  ";
-	std::cout << "\n Size: "<< ft1_v.size() << "	Capacity: " << ft1_v.capacity() << "\n\n";
+	std::cout << "\n Size: "<< ft1_v.size() << "	Capacity: " << ft1_v.capacity() << "\nV2: ";
+	for (ft::vector<int>::iterator it = ft2_v.begin(); it != ft2_v.end(); it++)
+		std::cout << *it << "  ";
+	std::cout << "\n Size: "<< ft2_v.size() << "	Capacity: " << ft2_v.capacity() << "\n";
 }
 
 void non_member_function_overloads_test()
@@ -725,14 +716,10 @@ void non_member_function_overloads_test()
 	std::vector<int> v4;
 	for (size_t i = 0; i < 15; i++)
 	{
-		v1.push_back(i);
-		v2.push_back(i);
-		v3.push_back(i);
-		v4.push_back(i);
+		v1.push_back(i); v2.push_back(i); v3.push_back(i); v4.push_back(i);
 	}
 
-	disp_vec_ft(v1, v2);
-	disp_vec_std(v3, v4);
+	disp_vec_ft(v1, v2); disp_vec_std(v3, v4);
 
 	std::cout << std::boolalpha << CYAN << "FT V1 == V2 : " << NC << (v1 == v2);
 	std::cout << CYAN << " | STD V1 == V2 : " << NC << (v3 == v4);
@@ -744,9 +731,8 @@ void non_member_function_overloads_test()
 	if ((v1 != v2) == (v3 != v4)){std::cout << GREEN << "	■\n" << NC;ok++;}
 	else{std::cout << RED << "	■\n" << NC; ko++;}
 
-	v1.pop_back();
-	v3.pop_back();
 	std::cout << PURPLE << "FT_V1 and STD_V1 pop_back()\n" << NC;
+	v1.pop_back(); v3.pop_back();
 
 	std::cout << CYAN << "FT V1 < V2  : " << NC << (v1 < v2);
 	std::cout << CYAN << " | STD V1 < V2  : " << NC << (v3 < v4);
@@ -770,11 +756,25 @@ void non_member_function_overloads_test()
 
 	test += 6;
 	std::cout << CYAN << "- SWAP FUNCTION TEST -\n" << NC;
+
+	ft::vector<int> v1_tmp (v1);
+	std::vector<int> v3_tmp (v3);
+
+	std::cout << PURPLE << "FT_V2 and STD_V3 push_back() 42 and 24\n" << NC;
+	v2.push_back(42); v2.push_back(24);
+	v4.push_back(42); v4.push_back(24);
+
+	std::cout << PURPLE << "Before Swap\n" << NC;
 	disp_vec_ft(v1, v2);
 	disp_vec_std(v3, v4);
-	v1.swap(v2);
-	v3.swap(v4);
+
+	ft::swap(v1, v2);
+	std::swap(v3, v4);
+
+	std::cout << PURPLE << "After Swap\n" << NC;
 	disp_vec_ft(v1, v2);
+	if (v2 == v1_tmp){std::cout << GREEN << "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Swap is good\n" << NC;ok++;}
+	else{std::cout << RED << "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Swap isn't good\n" << NC; ko++;}
 	disp_vec_std(v3, v4);
 	std::cout << YELLOW <<"----NON MEMBER FUNCTION OVERLOAD END----" << NC << std::endl << std::endl;
 }
