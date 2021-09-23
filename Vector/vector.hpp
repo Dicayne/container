@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/15 15:48:08 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/21 18:57:33 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ namespace ft
 			typedef const T*						const_pointer;
 			typedef Alloc							allocator_type;
 			typedef size_t							size_type;
-			typedef ptrdiff_t						difference_type;
+			typedef std::ptrdiff_t						difference_type;
 			typedef ft::iterator<T>					iterator;
 			typedef ft::const_iterator<T>			const_iterator;
 			typedef ft::reverse_iterator<T>			reverse_iterator;

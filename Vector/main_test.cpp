@@ -6,13 +6,14 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/15 16:08:33 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/21 18:58:55 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vector.hpp"
 #include "../Utils/colors.hpp"
 #include <vector>
+#include <cstdlib>
 
 int test = 0;
 int ok = 0;

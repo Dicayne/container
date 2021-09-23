@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:04:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/15 14:47:57 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/21 18:52:00 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ namespace ft
 	struct is_integral<bool>
 	{ static const bool value = true; };
 
-	template <>
-	struct is_integral<char16_t>
-	{ static const bool value = true; };
+	// template <>
+	// struct is_integral<char16_t>
+	// { static const bool value = true; };
 
-	template <>
-	struct is_integral<char32_t>
-	{ static const bool value = true; };
+	// template <>
+	// struct is_integral<char32_t>
+	// { static const bool value = true; };
 
 	template <>
 	struct is_integral<wchar_t>

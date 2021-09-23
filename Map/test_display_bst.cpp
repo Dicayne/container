@@ -42,8 +42,8 @@ Tree::Node* Tree::insert( Node* node, int val )
 {
    if ( !node ) return new Node( val );
    if ( val < node->data ) node->left  = insert( node->left, val );
-   else                    node->right = insert( node->right, val );   // ...
-// if ( val > node->data ) node->right = insert( node->right, val );   // alternative with no repeats
+   else              node->right = insert( node->right, val ); // ...
+// if ( val > node->data ) node->right = insert( node->right, val ); // alternative with no repeats
    return node;
 }
 
@@ -81,7 +81,7 @@ void Tree::drawNode( vector<string> &output, vector<string> &linkAbove, Node* no
       for ( string &s : linkAbove ) if ( !s.empty() ) s = extra + s;
    }
    if ( level < h - 1 ) p = max( p, (int)output[level+1].size() );
-   if ( level > 0     ) p = max( p, (int)output[level-1].size() );
+   if ( level > 0   ) p = max( p, (int)output[level-1].size() );
    p = max( p, (int)output[level].size() );
 
    // Fill in to left
@@ -152,10 +152,10 @@ int main()
 {
    srand( time( 0 ) );
 // vector<int> A = { 5, 4, 6, 2, 9, 0, 3, 7, 10, 1, 13 };                        // Test input
-   vector<int> A;   for ( int i = 0; i < 50; i++ ) A.push_back( rand() % 100 );  // Bigger tree
+   vector<int> A; for ( int i = 0; i < 50; i++ ) A.push_back( rand() % 100 );  // Bigger tree
 
    Tree tree;
    for ( int i : A ) tree.insert( i );
-// tree.print();
+   // tree.print();
    tree.draw();
 }

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:05:32 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/15 13:07:53 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/21 18:57:11 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft
 		class iterator
 		{
 		public:
-			typedef ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef T&									reference;
@@ -59,7 +59,7 @@ namespace ft
 		class const_iterator
 		{
 		public:
-			typedef ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
@@ -101,7 +101,7 @@ namespace ft
 		class reverse_iterator
 		{
 		public:
-			typedef ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
@@ -143,7 +143,7 @@ namespace ft
 		class const_reverse_iterator
 		{
 		public:
-			typedef ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t							difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
