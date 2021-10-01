@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:05:32 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/21 18:57:11 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:24:25 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ namespace ft
 		class iterator
 		{
 		public:
-			typedef std::ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t						difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef T&									reference;
@@ -27,7 +27,6 @@ namespace ft
 
 			iterator(void) : p(NULL) {}
 			iterator(pointer ptr) : p(ptr) {}
-			iterator(iterator const &x) : p(x.p) {}
 
 			iterator& operator=(const iterator& rhs) { this->p = rhs.p; return *this;}
 			iterator& operator++() { ++p; return *this;}
@@ -59,7 +58,7 @@ namespace ft
 		class const_iterator
 		{
 		public:
-			typedef std::ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t						difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
@@ -69,7 +68,6 @@ namespace ft
 
 			const_iterator(void) : p(NULL) {}
 			const_iterator(pointer ptr) : p(ptr) {}
-			const_iterator(iterator<T> x) : p(x.p) {}
 
 			const_iterator& operator=(const const_iterator& rhs) { this->p = rhs.p; return *this;}
 			const_iterator& operator++() { ++p; return *this;}
@@ -101,7 +99,7 @@ namespace ft
 		class reverse_iterator
 		{
 		public:
-			typedef std::ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t						difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
@@ -111,7 +109,6 @@ namespace ft
 
 			reverse_iterator(void) : p(NULL) {}
 			reverse_iterator(pointer ptr) : p(ptr) {}
-			reverse_iterator(iterator<T> x) : p(x.p - 1) {}
 
 			reverse_iterator& operator=(const reverse_iterator& rhs) { this->p = rhs.p; return *this;}
 			reverse_iterator& operator++() { --p; return *this;}
@@ -143,7 +140,7 @@ namespace ft
 		class const_reverse_iterator
 		{
 		public:
-			typedef std::ptrdiff_t							difference_type;
+			typedef std::ptrdiff_t						difference_type;
 			typedef T									value_type;
 			typedef T*									pointer;
 			typedef const T*							const_pointer;
@@ -153,7 +150,6 @@ namespace ft
 
 			const_reverse_iterator(void) : p(NULL) {}
 			const_reverse_iterator(pointer ptr) : p(ptr) {}
-			const_reverse_iterator(iterator<T> x) : p(x.p - 1) {}
 
 			const_reverse_iterator& operator=(const const_reverse_iterator& rhs) { this->p = rhs.p; return *this;}
 			const_reverse_iterator& operator++() { --p; return *this;}

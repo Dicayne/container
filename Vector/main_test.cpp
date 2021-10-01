@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/21 18:58:55 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/24 15:33:09 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -788,19 +788,6 @@ int main()
 	modifier_test();
 	allocator_test();
 	non_member_function_overloads_test();
-
-	// ft::vector<int> v1;
-	// std::vector<int> v2;
-	// for (size_t i = 0; i < 15; i++)
-	// {
-	// 	v1.push_back(i); v2.push_back(i);
-	// }
-
-	// for (ft::vector<int>::reverse_iterator rit = v1.rbegin(); rit != v1.rend(); rit++)
-	// 	std::cout << *rit << "  ";
-	// std::cout << "\n\n";
-
-
 	std::cout << "END MAIN : "<< test << " test ->" << GREEN << ok << " OK  " << RED << ko << " KO" << NC << std::endl;
 	return (0);
 }

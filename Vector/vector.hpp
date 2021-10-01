@@ -6,16 +6,13 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/21 18:57:33 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:24:03 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VECTOR_HPP
 #define VECTOR_HPP
 
-#include <iostream>
-#include <iomanip>
-#include <stdexcept>
 #include "../Utils/utils.hpp"
 #include "iterator.hpp"
 
@@ -35,7 +32,7 @@ namespace ft
 			typedef const T*						const_pointer;
 			typedef Alloc							allocator_type;
 			typedef size_t							size_type;
-			typedef std::ptrdiff_t						difference_type;
+			typedef std::ptrdiff_t					difference_type;
 			typedef ft::iterator<T>					iterator;
 			typedef ft::const_iterator<T>			const_iterator;
 			typedef ft::reverse_iterator<T>			reverse_iterator;

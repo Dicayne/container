@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:04:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/21 18:52:00 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/09/24 16:24:07 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <iostream>
 # include <string>
+#include <iomanip>
+#include <stdexcept>
 
 namespace ft
 {
