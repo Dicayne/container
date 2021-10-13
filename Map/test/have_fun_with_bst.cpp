@@ -6,14 +6,14 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/24 16:08:48 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/13 15:33:53 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <map>
 #include <iostream>
 #include <string>
-#include "../Utils/colors.hpp"
+#include "../../Utils/colors.hpp"
 #define COUNT 10
 
 template<class T>
@@ -172,7 +172,7 @@ int main()
 {
 	std::cout << YELLOW << "TEST BST\n" << NC;
 
-	Node<char> *tree = NULL;
+	Node<int> *tree = NULL;
 	std::string cmd;
 
 	std::cout << "Choose command (push, quit, display, clear, erase) :";
@@ -183,7 +183,7 @@ int main()
 		if (cmd == "push")
 		{
 			std::cout << "Enter the integer you want to store: ";
-			char value;
+			int value;
 			std::cin >> value;
 			push(&tree, value);
 		}
@@ -192,7 +192,7 @@ int main()
 		else if (cmd == "erase")
 		{
 			std::cout << "Enter the integer you want to erase: ";
-			char value;
+			int value;
 			std::cin >> value;
 			erase(&tree, value);
 		}
