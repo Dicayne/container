@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/18 18:42:50 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/19 17:55:08 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -464,11 +464,166 @@ void test_operations()
 
 		std::cout << YELLOW << "count = m.count('P');\n" << NC;
 		count = m.count('P');
-		std::cout << "-------> count = " << count << std::endl;
-
-
-
+		std::cout << "-------> count = " << count << std::endl << std::endl;
 	}
+	{
+		std::cout << CYAN << "-TEST OF LOWER_BOUND AND UPPER_BOUND-" << NC << std::endl;
+		ns::map<char,int> m;
+		ns::map<char,int>::iterator itlow,itup;
+
+		m['Z'] = 12;
+		m['X'] = 54;
+		m['A'] = 5;
+		m['F'] = -2;
+		m['B'] = 6;
+		m['G'] = 43;
+		m['L'] = 89;
+		display(m);
+
+		std::cout << CYAN << "\tTest on known key\n" << NC;
+
+		std::cout << YELLOW << "itlow = m.lower_bound ('F');\n" << NC;
+		itlow = m.lower_bound ('F');
+		std::cout << YELLOW << "itup = m.upper_bound ('F');\n" << NC;
+		itup = m.upper_bound ('F');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('F') NOTHING NOT LESS THAN 'F'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('F') NOTHING UPPER THAN 'F'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		std::cout << YELLOW << "\nitlow = m.lower_bound ('A');\n" << NC;
+		itlow = m.lower_bound ('A');
+		std::cout << YELLOW << "itup = m.upper_bound ('A');\n" << NC;
+		itup = m.upper_bound ('A');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('A') NOTHING NOT LESS THAN 'A'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('A') NOTHING UPPER THAN 'A'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		std::cout << YELLOW << "\nitlow = m.lower_bound ('Z');\n" << NC;
+		itlow = m.lower_bound ('Z');
+		std::cout << YELLOW << "itup = m.upper_bound ('Z');\n" << NC;
+		itup = m.upper_bound ('Z');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('Z') NOTHING NOT LESS THAN 'Z'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('Z') NOTHING UPPER THAN 'Z'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		/////////////////////////////
+
+		std::cout << CYAN << "\n\tTest on unknown key\n" << NC;
+
+		std::cout << YELLOW << "itlow = m.lower_bound ('-');\n" << NC;
+		itlow = m.lower_bound ('-');
+		std::cout << YELLOW << "itup = m.upper_bound ('-');\n" << NC;
+		itup = m.upper_bound ('-');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('-') NOTHING NOT LESS THAN '-'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('-') NOTHING UPPER THAN '-'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		std::cout << YELLOW << "\nitlow = m.lower_bound ('K');\n" << NC;
+		itlow = m.lower_bound ('K');
+		std::cout << YELLOW << "itup = m.upper_bound ('K');\n" << NC;
+		itup = m.upper_bound ('K');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('K') NOTHING NOT LESS THAN 'K'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('K') NOTHING UPPER THAN 'K'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		std::cout << YELLOW << "\nitlow = m.lower_bound ('a');\n" << NC;
+		itlow = m.lower_bound ('a');
+		std::cout << YELLOW << "itup = m.upper_bound ('a');\n" << NC;
+		itup = m.upper_bound ('a');
+		if (itlow == m.end())
+			std::cout << RED << "itlow ---> m.lower_bound('a') NOTHING NOT LESS THAN 'a'\n";
+		else
+			std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
+		if (itup == m.end())
+			std::cout << RED << "itup ----> m.upper_bound('a') NOTHING UPPER THAN 'a'\n";
+		else
+			std::cout << "itup ----> " << display_paire(*itup) << std::endl;
+
+		/////////////////////////////
+
+		std::cout << CYAN << "\n\tTest const\n" << NC;
+
+		ns::map<char,int>::const_iterator const_itlow,const_itup;
+
+		std::cout << YELLOW << "const_itlow = m.lower_bound ('F');\n" << NC;
+		const_itlow = m.lower_bound ('F');
+		std::cout << YELLOW << "const_itup = m.upper_bound ('F');\n" << NC;
+		const_itup = m.upper_bound ('F');
+		if (const_itlow == m.end())
+			std::cout << RED << "const_itlow ---> m.lower_bound('F') NOTHING NOT LESS THAN 'F'\n";
+		else
+			std::cout << "const_itlow ---> " << display_paire(*const_itlow) << std::endl;
+		if (const_itup == m.end())
+			std::cout << RED << "const_itup ----> m.upper_bound('F') NOTHING UPPER THAN 'F'\n\n";
+		else
+			std::cout << "const_itup ----> " << display_paire(*const_itup) << std::endl << std::endl;
+
+		std::cout << CYAN << "-TEST OF EQUAL_RANGE-" << NC << std::endl;
+
+		ns::pair<ns::map<char,int>::iterator, ns::map<char,int>::iterator> ret;
+		ns::pair<ns::map<char,int>::const_iterator, ns::map<char,int>::const_iterator> const_ret;
+
+		std::cout << YELLOW << "ret = m.equal_range('F');\n" << NC;
+		ret = m.equal_range('F');
+		std::cout << YELLOW << "const_ret = m.equal_range('F');\n" << NC;
+		const_ret = m.equal_range('F');
+
+		std::cout << "lower bound points to ret: ";
+		std::cout << ret.first->first << " => " << ret.first->second << "\n";
+		std::cout << "upper bound points to ret: ";
+		std::cout << ret.second->first << " => " << ret.second->second << "\n\n";
+
+		std::cout << "lower bound points to const_ret: ";
+		std::cout << const_ret.first->first << " => " << const_ret.first->second << "\n";
+		std::cout << "upper bound points to const_ret: ";
+		std::cout << const_ret.second->first << " => " << const_ret.second->second << "\n\n";
+	}
+}
+
+void test_allocator()
+{
+	std::cout << CYAN << "-TEST OF GET_ALLOCATOR-" << NC << std::endl;
+	int psize;
+	ns::map<char,int> m;
+	ns::pair<const char,int>* p;
+
+	// allocate an array of 5 elements using m's allocator:
+	std::cout << YELLOW << "p = m.get_allocator().allocate(5);\n" << NC;
+	p = m.get_allocator().allocate(5);
+
+	// assign some values to array
+	std::cout << YELLOW << "psize = sizeof(std::map<char,int>::value_type) * 5;\n" << NC;
+	psize = sizeof(std::map<char,int>::value_type) * 5;
+
+	std::cout << "The allocated array has a size of " << psize << " bytes.\n";
+
+	std::cout << YELLOW << "m.get_allocator().deallocate(p,5);\n" << NC;
+	m.get_allocator().deallocate(p,5);
 }
 
 int main()
@@ -480,5 +635,6 @@ int main()
 	// test_modifiers();
 	// test_observers();
 	test_operations();
+	test_allocator();
 	return (0);
 }
