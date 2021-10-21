@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/19 18:52:16 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/21 17:10:32 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,34 @@ namespace ft
 					Node*			right;
 					value_type		value;
 				};
+
 				Node			*_tree;
 				size_type		_size;
 				allocator_type	_alloc;
+
+			public:
+																		// CONSTRUCTOR //
+				// Empty container constructor (default constructor) Constructs an empty container, with no elements
+				explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(NULL), _size(0), _alloc(alloc)
+				{
+					std::cout << "Empty Constructor Call\n";
+				}
+
+				/* Range constructor
+					Constructs a container with as many elements as the range [first,last), with each element constructed from its corresponding element in that range.*/
+			template <class InputIterator>
+				map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+				{
+					std::cout << "Range Constructor Call\n";
+				}
+
+				// copy (3)
+				map (const map& x)
+				{
+					std::cout << "Copy Constructor Call\n";
+				}
+
+
 		};
 }
 #endif
