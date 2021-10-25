@@ -190,8 +190,7 @@ namespace ft
 						std::cout << "Val Not Find\n";
 						ret.second = true;
 						push(&this->_tree, val);
-						std::cout << this->_tree->value.second << std::endl;
-
+						std::cout << this->_tree->value.second << std::endl;\
 						ret.first = iterator(find_node(this->_tree, val));
 					}
 					return (ret);
