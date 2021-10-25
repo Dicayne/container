@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/09 19:04:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/24 16:24:07 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/25 17:39:37 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,17 +126,23 @@ namespace ft
 			T2 second;
 
 			pair() : first(), second() {}
-			template<class U, class V> pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+
+		template<class U, class V>
+			pair (const pair<U,V>& pr) : first(pr.first), second(pr.second) {}
+
 			pair (const T1& a, const T2& b) : first(a), second(b) {}
 
 			pair& operator= (const pair& pr)
 			{
-				first = pr.first;
-				second = pr.second;
+				this->first = pr.first;
+				this->second = pr.second;
 
 				return *this;
 			}
 		};
+
+	template <class T1,class T2>
+		pair<T1,T2> make_pair (T1 x, T2 y) {return (pair<T1,T2>(x,y));}
 
 	template <class T1, class T2>
 		bool operator== (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return lhs.first==rhs.first && lhs.second==rhs.second;}
@@ -155,10 +161,6 @@ namespace ft
 
 	template <class T1, class T2>
 		bool operator>= (const pair<T1,T2>& lhs, const pair<T1,T2>& rhs) {return !(lhs<rhs);}
-
-
-	template <class T1,class T2>
-		pair<T1,T2> make_pair (T1 x, T2 y) {return (pair<T1,T2>(x,y));}
 }
 
 #endif

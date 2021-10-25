@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/21 15:28:38 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/25 17:52:26 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -639,5 +639,14 @@ int main()
 
 	ns::map<char, int> m;
 
+	ns::pair<ns::map<char, int>::iterator, bool> p;
+	std::cout << "p = m.insert(ns::pair<char, int>('D', -6543214));\n";
+	p = m.insert(ns::pair<const char, int>('D', -6543214));
+	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
+
+	ns::pair<ns::map<char, int>::iterator, bool> pr;
+	std::cout << "pr = m.insert(ns::pair<char, int>('D', -6543214));\n";
+	pr = m.insert(ns::pair<const char, int>('D', -6544));
+	std::cout << std::boolalpha << "pr = " << pr.first->first << ": " << pr.first->second << ". Inserted-> " << pr.second << std::endl << std::endl;
 	return (0);
 }

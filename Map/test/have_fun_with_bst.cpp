@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/13 15:33:53 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/25 15:15:04 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	display(Node<T> *tree)
 	{
 		if (tree->left)
 			display(tree->left);
-		std::cout << tree->value << "  ";
+		std::cout << tree->value << "\t";
 		if (tree->right)
 			display(tree->right);
 	}

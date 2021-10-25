@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/24 15:33:09 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/08 19:11:27 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -776,6 +776,7 @@ void non_member_function_overloads_test()
 	disp_vec_ft(v1, v2);
 	if (v2 == v1_tmp){std::cout << GREEN << "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Swap is good\n" << NC;ok++;}
 	else{std::cout << RED << "▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Swap isn't good\n" << NC; ko++;}
+	test++;
 	disp_vec_std(v3, v4);
 	std::cout << YELLOW <<"----NON MEMBER FUNCTION OVERLOAD END----" << NC << std::endl << std::endl;
 }
@@ -788,6 +789,7 @@ int main()
 	modifier_test();
 	allocator_test();
 	non_member_function_overloads_test();
+
 	std::cout << "END MAIN : "<< test << " test ->" << GREEN << ok << " OK  " << RED << ko << " KO" << NC << std::endl;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/09/24 16:24:03 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/25 14:47:13 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ namespace ft
 			}
 
 		public:
-																		// MEMBERS FUNCTIONS //
+																		// CONSTRUCTOR //
 
 			// Explicit Specifies that a constructor is explicit, that is, it cannot be used for implicit conversions and copy-initialization.
 			// Default constructor, Constructs an empty container, with no elements.
@@ -138,16 +138,16 @@ namespace ft
 
 																		// ITERATORS //
 			iterator begin( void ) {return iterator(this->_array);}
-			const_iterator cbegin( void ) const {return const_iterator(this->_array);}
+			const_iterator begin( void ) const {return const_iterator(this->_array);}
 
 			iterator end( void ) {return iterator(&this->_array[this->_size]);}
-			const_iterator cend( void ) const {return const_iterator(&this->_array[this->_size]);}
+			const_iterator end( void ) const {return const_iterator(&this->_array[this->_size]);}
 
 			reverse_iterator rbegin( void ) { return reverse_iterator(this->end()); }
-			const_reverse_iterator crbegin( void ) const { return const_reverse_iterator(this->end()); }
+			const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(this->end()); }
 
 			reverse_iterator rend( void ) { return reverse_iterator(this->begin()); }
-			const_reverse_iterator crend( void ) const { return const_reverse_iterator(this->begin()); }
+			const_reverse_iterator rend( void ) const { return const_reverse_iterator(this->begin()); }
 
 
 																		// CAPACITY //
@@ -447,7 +447,7 @@ namespace ft
 		bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
 			if (lhs.size() == rhs.size())
-				return (ft::equal(lhs.cbegin(), lhs.cend(), rhs.cbegin()));
+				return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 			return (false);
 		}
 
@@ -460,7 +460,7 @@ namespace ft
 	template <class T, class Alloc>
 		bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 		{
-			return (ft::lexicographical_compare(lhs.cbegin(), lhs.cend(), rhs.cbegin(), rhs.cend()));
+			return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 		}
 
 	template <class T, class Alloc>
