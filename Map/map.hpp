@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/25 18:07:06 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/26 21:45:32 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ namespace ft
 				typedef std::ptrdiff_t										difference_type;
 				typedef size_t												size_type;
 
-				typedef typename std::map<Key, T>::iterator					iterator;
+				typedef typename ft::iterator<Key, T>								iterator;
 				typedef typename std::map<Key, T>::const_iterator			const_iterator;
 				typedef typename std::map<Key, T>::reverse_iterator			reverse_iterator;
 				typedef typename std::map<Key, T>::const_reverse_iterator	const_reverse_iterator;
@@ -51,21 +51,64 @@ namespace ft
 				allocator_type	_alloc;
 				key_compare		_comp;
 
-				Node *find_node(Node *root, value_type val)
+				void	display_all(Node *root, int space)
+				{
+					if (root == NULL)
+						return;
+					space += 10;
+					display_all(root->right, space);
+					std::cout << std::endl;
+					for (int i = 10; i < space; i++)
+						std::cout << " ";
+					std::cout <<root->value.first << '[' << root->value.second << ']'<< "\n";
+
+					display_all(root->left, space);
+				}
+
+				void display(Node *tree)
+				{
+					std::cout << "------------------ DISPLAY -----------------\n";
+					display_all(tree, 0);
+					std::cout << "\n------------------ END -----------------\n\n";
+				}
+
+				Node *find_node(Node *root, key_type val)
 				{
 					Node *ret = root;
 
 					while (ret)
 					{
-						if (val.first < ret->value.first)
+						if (val < ret->value.first)
 							ret = ret->left;
-						else if (val.first > ret->value.first)
+						else if (val > ret->value.first)
 							ret = ret->right;
 						else
 							break;
 					}
 					if (!ret)
 						return (NULL);
+					return (ret);
+				}
+
+				Node *find_lower_node()
+				{
+					Node *ret = this->_tree;
+					if (ret != NULL)
+					{
+						while (ret->left != NULL)
+							ret = ret->left;
+					}
+					return (ret);
+				}
+
+				Node *find_high_node()
+				{
+					Node *ret = this->_tree;
+					if (ret != NULL)
+					{
+						while (ret->right != NULL)
+							ret = ret->right;
+					}
 					return (ret);
 				}
 
@@ -95,16 +138,62 @@ namespace ft
 
 				void	push(Node **tree, value_type val)
 				{
-					Node *n = new Node(val);
+					// Node *n;
+					// n = this->_alloc.allocate(sizeof (Node));
 
+					Node *n = new Node;
 					n->left = NULL;
 					n->right = NULL;
-					// n->value = ft::make_pair(val.first, val.second);
-
+					this->_alloc.construct(&n->value, val);
 					place(n, tree);
-					std::cout << "test\n" << n->value.second << std::endl;
 				}
+
+				void erase_node(Node **tree, key_type val)
+				{
+					Node *curent = *tree;
+					Node *tmp = find_node(*tree, val);
+
+					if (!tmp)
+						return;
+
+					Node *left = tmp->left;
+					Node *right = tmp->right;
+
+					if (val == curent->value.first)
+					{
+						*tree = right;
+						if (left)
+							place(left, tree);
+						delete (tmp);
+					}
+					else
+					{
+						while(curent != tmp)
+						{
+							if(curent->right == tmp || curent->left == tmp)
+								break;
+							if(tmp->value >= curent->value)
+								curent = curent->right;
+							else
+								curent = curent->left;
+						}
+
+						if(curent->right == tmp)
+							curent->right = right;
+						else
+							curent->left = right;
+						if(left)
+							place(left, tree);
+						delete tmp;
+					}
+				}
+
 			public:
+
+				void display()
+				{
+					display(this->_tree);
+				}
 																		// CONSTRUCTOR //
 				// Empty container constructor (default constructor) Constructs an empty container, with no elements
 				explicit map (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) : _tree(NULL), _size(0), _alloc(alloc), _comp(comp)
@@ -144,11 +233,11 @@ namespace ft
 
 																		// ITERATORS //
 
-				iterator begin( void ) {return iterator(this->_tree);}
-				const_iterator begin( void ) const {return const_iterator(this->_tree);}
+				iterator begin( void ) {return iterator(find_lower_node());}
+				const_iterator begin( void ) const {return const_iterator(find_lower_node());}
 
-				iterator end( void ) {return iterator(&this->_tree[this->_size]);}
-				const_iterator end( void ) const {return const_iterator(&this->_tree[this->_size]);}
+				iterator end( void ) {return iterator(find_high_node());}
+				const_iterator end( void ) const {return const_iterator(find_high_node());}
 
 				reverse_iterator rbegin( void ) { return reverse_iterator(this->end()); }
 				const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(this->end()); }
@@ -167,10 +256,10 @@ namespace ft
 				}
 
 																		// ELEMENT ACCESS //
-				// mapped_type& operator[] (const key_type& k)
-				void operator[] (const key_type& k)
+				mapped_type& operator[] (const key_type& k)
 				{
-					(void) k;
+					mapped_type &ret = (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+					return (ret);
 				}
 
 																		// MODIFIERS //
@@ -178,34 +267,71 @@ namespace ft
 				ft::pair<iterator,bool> insert (const value_type& val) // Insert Single Element
 				{
 					ft::pair<iterator, bool> ret;
-					Node *tmp = find_node(this->_tree, val);
+					Node *tmp = find_node(this->_tree, val.first);
 
 					if (tmp)
 					{
-						std::cout << "Val Find\n";
+						std::cout << "Val " << val.first << " Find\n";
 						ret.second = false;
 					}
 					else
 					{
-						std::cout << "Val Not Find\n";
+						std::cout << "Val " << val.first << " Not Find, then insert\n";
 						ret.second = true;
 						push(&this->_tree, val);
-						std::cout << this->_tree->value.second << std::endl;\
-						ret.first = iterator(find_node(this->_tree, val));
+						this->_size++;
 					}
+					ret.first = find(val.first);
 					return (ret);
 				}
 
-				// iterator insert (iterator position, const value_type& val) // Insert Single Element with hint to accelerate search
-				// {
-
-				// }
+				iterator insert (iterator position, const value_type& val) // Insert Single Element with hint to accelerate search
+				{
+					std::cout << "HINT PASS\n";
+					(void)position;
+					return (insert(val).first);
+				}
 
 				// template <class InputIterator>
 				// void insert (InputIterator first, InputIterator last) // Insert Range Element
 				// {
 
 				// }
+
+				// void erase (iterator position)
+				// {
+				// 	erase_node(&this->_tree, );
+				// }
+
+				size_type erase (const key_type& k)
+				{
+					erase_node(&this->_tree, k);
+					this->_size--;
+					return (0);
+				}
+
+				// void erase (iterator first, iterator last)
+				// {
+
+				// }
+
+				void clear()
+				{
+					Node *tmp = this->_tree;
+					while (tmp)
+						erase_node(&tmp, tmp->value.first);
+					this->_tree = NULL;
+				}
+				iterator find (const key_type& k)
+				{
+					Node *tmp = find_node(this->_tree, k);
+
+					// std::cout << tmp->value.first << "[" << tmp->value.second << "]\n";
+
+					return (iterator(tmp));
+				}
+
+
 		};
 }
 #endif

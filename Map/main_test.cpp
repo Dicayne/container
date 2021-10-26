@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/25 17:52:26 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/26 21:46:10 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -640,13 +640,57 @@ int main()
 	ns::map<char, int> m;
 
 	ns::pair<ns::map<char, int>::iterator, bool> p;
-	std::cout << "p = m.insert(ns::pair<char, int>('D', -6543214));\n";
-	p = m.insert(ns::pair<const char, int>('D', -6543214));
+
+	std::cout << "p = m.insert(ns::pair<char, int>('D', 8));\n";
+	p = m.insert(ns::pair<const char, int>('D', 8));
 	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
 
-	ns::pair<ns::map<char, int>::iterator, bool> pr;
-	std::cout << "pr = m.insert(ns::pair<char, int>('D', -6543214));\n";
-	pr = m.insert(ns::pair<const char, int>('D', -6544));
-	std::cout << std::boolalpha << "pr = " << pr.first->first << ": " << pr.first->second << ". Inserted-> " << pr.second << std::endl << std::endl;
+
+	std::cout << "p = m.insert(ns::pair<char, int>('E', 12));\n";
+	p = m.insert(ns::pair<const char, int>('E', 12));
+	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
+
+	std::cout << "p = m.insert(ns::pair<char, int>('A', 1));\n";
+	p = m.insert(ns::pair<const char, int>('A', 1));
+	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
+
+	std::cout << "p = m.insert(ns::pair<char, int>('G', 10));\n";
+	p = m.insert(ns::pair<const char, int>('G', 10));
+	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
+
+
+	std::cout << "p = m.insert(ns::pair<char, int>('D', 18));\n";
+	p = m.insert(ns::pair<const char, int>('D', 18));
+	std::cout << std::boolalpha << "p = " << p.first->first << ": " << p.first->second << ". Inserted-> " << p.second << std::endl << std::endl;
+
+	std::cout << "TOTO1\n";
+	m['R'] = 10;
+	std::cout << "TOTO2\n";
+	m['B'] = 14;
+
+	std::cout << m['D'] << std::endl;
+
+	ns::map<char, int>::iterator it;
+	ns::map<char, int>::iterator it2;
+	it = m.find('D');
+
+	it2 = m.insert(it, ns::pair<char, int>('F', 4));
+	std::cout << it2->first << "   " << it2->second << '\n';
+
+	it2 = m.insert(it, ns::pair<char, int>('F', 123));
+	std::cout << it2->first << "   " << it2->second << '\n';
+
+	it2 = m.begin();
+	std::cout << it2->first << "   " << it2->second << '\n';
+	it2 = m.end();
+	std::cout << it2->first << "   " << it2->second << '\n';
+
+	m.display();
+
+	m.erase('G');
+
+	m.display();
+
+	m.display();
 	return (0);
 }
