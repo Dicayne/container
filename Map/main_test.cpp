@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/27 19:45:44 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/27 20:10:10 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void test_iterator()
 
 void test_element_access()
 {
-	std::cout << YELLOW << "----TEST ITERATOR BEGIN----\n" << NC;
+	std::cout << YELLOW << "----TEST ELEMENT ACCESS BEGIN----\n" << NC;
 	ns::map<char, int> m1;
 
 	m1['Z'] = 12;
@@ -175,7 +175,7 @@ void test_element_access()
 	m1['B'] = 34;
 	m1['P'] = 4;
 
-	std::cout << CYAN << "-Test [] on known key-\n" << NC;
+	std::cout << CYAN << "-Test [ ] on known key-\n" << NC;
 	std::cout << "map['Z']= " << m1['Z'] << std::endl;
 	std::cout << "map['X']= " << m1['X'] << std::endl;
 	std::cout << "map['A']= " << m1['A'] << std::endl;
@@ -189,7 +189,8 @@ void test_element_access()
 	std::cout << CYAN << "-Test at on unknown key-\n" << NC;
 	std::cout << "map['Q']= " << m1['Q'] << std::endl << std::endl;
 
-	std::cout << YELLOW << "----TEST ITERATOR END----\n\n" << NC;
+	display(m1);
+	std::cout << YELLOW << "----TEST ELEMENT ACCESS END----\n\n" << NC;
 }
 
 void test_modifiers()
@@ -346,15 +347,13 @@ void test_observers()
 	m['B'] = 6;
 	m['G'] = 43;
 	m['L'] = 89;
-	// m.display();
 	display(m);
 
 	ns::map<char, int>::key_compare k_comp = m.key_comp();
 	bool res;
 
 	ns::map<char,int>::iterator begin_it = m.begin();
-	ns::map<char,int>::iterator begin_it2 = m.find('B');
-	// ns::map<char,int>::iterator begin_it2 = ++m.begin();
+	ns::map<char,int>::iterator begin_it2 = ++m.begin();
 
 	std::cout << CYAN << "\tComp with it->FIRST\n" << NC;
 	std::cout << YELLOW << "res = k_comp(begin_it->first, begin_it2->first); as " << begin_it->first << " < " << begin_it2->first << "?\n" << NC;
@@ -413,7 +412,6 @@ void test_operations()
 		m['B'] = 6;
 		m['G'] = 43;
 		m['L'] = 89;
-		//m.display();
 		display(m);
 
 		ns::map<char, int>::iterator it;
