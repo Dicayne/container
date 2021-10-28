@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/08 19:11:27 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/28 16:37:18 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -686,6 +686,29 @@ void allocator_test()
 
 }
 
+void test_iterator()
+{
+	std::cout << YELLOW << "----TEST ITERATOR BEGIN----\n" << NC;
+	ft::vector<int> v1;
+
+	int random;
+
+	for (size_t i = 0; i < 15; i++)
+	{
+		random = rand() % 100;
+		v1.push_back(random);
+	}
+
+	for (ft::vector<int>::iterator it = v1.begin(); it != v1.end(); it++)
+		std::cout << *it << "  ";
+	std::cout << "\n\n";
+	std::cout << CYAN << "v1.begin() = " << NC << *v1.begin() << NC << std::endl;
+	std::cout << CYAN << "--v1.end() = " << NC << *--v1.end() << NC << std::endl;
+	std::cout << CYAN << "v1.rbegin() = " << NC << *v1.rbegin() << NC << std::endl;
+	std::cout << CYAN << "--v1.rend() = " << NC << *--v1.rend() << NC << std::endl << std::endl;
+	std::cout << YELLOW << "----TEST ITERATOR END----\n\n" << NC;
+}
+
 void disp_vec_std(std::vector<int> &std1_v, std::vector<int> &std2_v)
 {
 	std::cout << "\nSTD_VECTORS :\nV1: ";
@@ -783,12 +806,13 @@ void non_member_function_overloads_test()
 
 int main()
 {
-	constructor_test();
-	capacity_test();
-	element_access_test();
-	modifier_test();
-	allocator_test();
-	non_member_function_overloads_test();
+	// constructor_test();
+	// capacity_test();
+	// element_access_test();
+	// modifier_test();
+	// allocator_test();
+	// non_member_function_overloads_test();
+	test_iterator();
 
 	std::cout << "END MAIN : "<< test << " test ->" << GREEN << ok << " OK  " << RED << ko << " KO" << NC << std::endl;
 	return (0);

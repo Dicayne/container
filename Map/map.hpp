@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/27 19:51:28 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/28 19:05:19 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define MAP_HPP
 
 #include "../Utils/utils.hpp"
-#include "iterator.hpp"
+#include "iterator_map.hpp"
 #include <map>
 
 namespace ft
@@ -39,10 +39,10 @@ namespace ft
 				typedef std::ptrdiff_t										difference_type;
 				typedef size_t												size_type;
 
-				typedef typename ft::iterator<Key, T>						iterator;
-				typedef typename ft::const_iterator<Key, T>					const_iterator;
-				typedef typename std::map<Key, T>::reverse_iterator			reverse_iterator;
-				typedef typename std::map<Key, T>::const_reverse_iterator	const_reverse_iterator;
+				typedef typename ft::map_iterator<Key, T>					iterator;
+				typedef typename ft::map_const_iterator<Key, T>				const_iterator;
+				typedef typename ft::map_reverse_iterator<Key, T>			reverse_iterator;
+				typedef typename ft::map_const_reverse_iterator<Key, T>		const_reverse_iterator;
 
 			private:
 
@@ -58,6 +58,28 @@ namespace ft
 				void display()
 				{
 					display(this->_root);
+				}
+
+				void	display_all_p()
+				{
+					display_p(this->_root, 0);
+				}
+
+				void	display_p(Node *root, int space)
+				{
+					if (root == this->_last)
+						return;
+					space += 10;
+					display_p(root->right, space);
+					std::cout << std::endl;
+					for (int i = 10; i < space; i++)
+						std::cout << " ";
+					if (root->parent == NULL)
+						std::cout << "NULL\n";
+					else
+						std::cout <<root->parent->value.first << '[' << root->parent->value.second << ']'<< "\n";
+
+					display_p(root->left, space);
 				}
 																		// CONSTRUCTOR //
 				// Empty container constructor (default constructor) Constructs an empty container, with no elements
@@ -139,11 +161,21 @@ namespace ft
 					return const_iterator(tmp->right, this->_last);
 				}
 
-				reverse_iterator rbegin( void ) { return reverse_iterator(this->end()); }
-				const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(this->end()); }
+				reverse_iterator rbegin( void ) { return reverse_iterator(--this->end()); }
+				const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(--this->end()); }
 
-				reverse_iterator rend( void ) { return reverse_iterator(this->begin()); }
-				const_reverse_iterator rend( void ) const { return const_reverse_iterator(this->begin()); }
+				reverse_iterator rend( void )
+				{
+					this->_last->right = this->_root;
+					this->_last->left = this->_root;
+					return reverse_iterator(--this->begin());
+				}
+				const_reverse_iterator rend( void ) const
+				{
+					this->_last->right = this->_root;
+					this->_last->left = this->_root;
+					return const_reverse_iterator(--this->begin());
+				}
 
 																		// CAPACITY //
 
@@ -157,7 +189,7 @@ namespace ft
 																		// ELEMENT ACCESS //
 				mapped_type& operator[] (const key_type& k)
 				{
-					mapped_type &ret = (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+					mapped_type &ret = (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
 					return (ret);
 				}
 
@@ -211,6 +243,8 @@ namespace ft
 						erase_node(&this->_root, k);
 						this->_size--;
 						ret = 1;
+						reset_parent(this->_root, this->_root);
+						this->_root->parent = NULL;
 					}
 					return (ret);
 				}
@@ -218,7 +252,11 @@ namespace ft
 				void erase (iterator first, iterator last)
 				{
 					while (first != last)
-						erase(first);
+					{
+						iterator tmp(first);
+						first++;
+						erase(tmp);
+					}
 				}
 
 
@@ -272,14 +310,85 @@ namespace ft
 						return (1);
 				}
 
-				// iterator lower_bound (const key_type& k) {}
-				// const_iterator lower_bound (const key_type& k) const {}
+				iterator lower_bound (const key_type& k)
+				{
+					key_type min = find_lower_node()->value.first;
+					key_type max = find_high_node()->value.first;
+					if (find(k) != this->end())
+						return (find(k));
+					else if (this->_comp(k, min))
+						return (this->begin());
+					else if (this->_comp(k, max))
+						return (find_close_node(k));
+					else
+						return (this->end());
+				}
+				const_iterator lower_bound (const key_type& k) const
+				{
+					// std::cout << "PASS CONST\n";
+					key_type min = find_lower_node()->value.first;
+					key_type max = find_high_node()->value.first;
+					if (find(k) != this->end())
+						return (find(k));
+					else if (this->_comp(k, min))
+						return (this->begin());
+					else if (this->_comp(k, max))
+						return (find_close_node(k));
+					else
+						return (this->end());
+				}
 
-				// iterator upper_bound (const key_type& k) {}
-				// const_iterator upper_bound (const key_type& k) const {}
+				iterator upper_bound (const key_type& k)
+				{
+					key_type min = find_lower_node()->value.first;
+					key_type max = find_high_node()->value.first;
+					if (find(k) != this->end())
+						return (++find(k));
+					else if (this->_comp(k, min))
+						return (this->begin());
+					else if (this->_comp(k, max))
+						return (find_close_node(k));
+					else
+						return (this->end());
+				}
 
-				// ft::pair<iterator,iterator> equal_range (const key_type& k) {}
-				// ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {}
+				const_iterator upper_bound (const key_type& k) const
+				{
+					// std::cout << "PASS CONST\n";
+					key_type min = find_lower_node()->value.first;
+					key_type max = find_high_node()->value.first;
+					if (find(k) != this->end())
+						return (++find(k));
+					else if (this->_comp(k, min))
+						return (this->begin());
+					else if (this->_comp(k, max))
+						return (find_close_node(k));
+					else
+						return (this->end());
+				}
+
+				ft::pair<iterator,iterator> equal_range (const key_type& k)
+				{
+					ft::pair<iterator,iterator> ret;
+
+					ret.first = lower_bound(k);
+					ret.second = upper_bound(k);
+
+					return (ret);
+				}
+
+				ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+				{
+					// std::cout << "PASS CONST\n";
+					ft::pair<const_iterator,const_iterator> ret;
+
+					ret.first = lower_bound(k);
+					ret.second = upper_bound(k);
+
+					return (ret);
+				}
+
+				allocator_type get_allocator() const { return (this->_alloc);}
 			private :
 			////////////////// UTILS /////////////////////
 				void	display_all(Node *root, int space)
@@ -342,6 +451,17 @@ namespace ft
 					return (ret);
 				}
 
+				Node *find_close_node(key_type val) const
+				{
+					const_iterator ret = this->begin();
+
+					while (this->_comp(ret->first, val))
+					{
+						ret++;
+					}
+					return (ret.get_root());
+				}
+
 				void	place(Node *n, Node **tree)
 				{
 					Node *previous;
@@ -395,6 +515,7 @@ namespace ft
 				{
 					Node *curent = *tree;
 					Node *tmp = find_node(*tree, val);
+
 					if (!tmp)
 						return;
 
@@ -432,6 +553,18 @@ namespace ft
 					}
 				}
 
+				void reset_parent(Node *root, Node *parent)
+				{
+					if (root == this->_last)
+						return;
+					reset_parent(root->right, root);
+					if (root->parent != NULL)
+					{
+						if (root->parent != parent)
+							root->parent = parent;
+					}
+					reset_parent(root->left, root);
+				}
 		};
 }
 #endif

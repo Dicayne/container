@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/25 14:47:13 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/28 18:56:45 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #define VECTOR_HPP
 
 #include "../Utils/utils.hpp"
-#include "iterator.hpp"
+#include "iterator_vec.hpp"
 
 namespace ft
 {
@@ -25,18 +25,18 @@ namespace ft
 		{
 		public:
 		// Types //
-			typedef T								value_type;
-			typedef T&								reference;
-			typedef const T&						const_reference;
-			typedef T*								pointer;
-			typedef const T*						const_pointer;
-			typedef Alloc							allocator_type;
-			typedef size_t							size_type;
-			typedef std::ptrdiff_t					difference_type;
-			typedef ft::iterator<T>					iterator;
-			typedef ft::const_iterator<T>			const_iterator;
-			typedef ft::reverse_iterator<T>			reverse_iterator;
-			typedef ft::const_reverse_iterator<T>	const_reverse_iterator;
+			typedef T									value_type;
+			typedef T&									reference;
+			typedef const T&							const_reference;
+			typedef T*									pointer;
+			typedef const T*							const_pointer;
+			typedef Alloc								allocator_type;
+			typedef size_t								size_type;
+			typedef std::ptrdiff_t						difference_type;
+			typedef ft::vec_iterator<T>					iterator;
+			typedef ft::vec_const_iterator<T>			const_iterator;
+			typedef ft::vec_reverse_iterator<T>			reverse_iterator;
+			typedef ft::vec_const_reverse_iterator<T>	const_reverse_iterator;
 
 		private:
 			T*				_array;
@@ -143,11 +143,11 @@ namespace ft
 			iterator end( void ) {return iterator(&this->_array[this->_size]);}
 			const_iterator end( void ) const {return const_iterator(&this->_array[this->_size]);}
 
-			reverse_iterator rbegin( void ) { return reverse_iterator(this->end()); }
-			const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(this->end()); }
+			reverse_iterator rbegin( void ) { return reverse_iterator(--this->end()); }
+			const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(--this->end()); }
 
-			reverse_iterator rend( void ) { return reverse_iterator(this->begin()); }
-			const_reverse_iterator rend( void ) const { return const_reverse_iterator(this->begin()); }
+			reverse_iterator rend( void ) { return reverse_iterator(--this->begin()); }
+			const_reverse_iterator rend( void ) const { return const_reverse_iterator(--this->begin()); }
 
 
 																		// CAPACITY //
