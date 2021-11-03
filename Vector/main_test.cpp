@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 16:37:18 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/29 11:24:31 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -806,14 +806,16 @@ void non_member_function_overloads_test()
 
 int main()
 {
-	// constructor_test();
-	// capacity_test();
-	// element_access_test();
-	// modifier_test();
-	// allocator_test();
-	// non_member_function_overloads_test();
+	constructor_test();
+	capacity_test();
+	element_access_test();
+	modifier_test();
+	allocator_test();
+	non_member_function_overloads_test();
 	test_iterator();
 
 	std::cout << "END MAIN : "<< test << " test ->" << GREEN << ok << " OK  " << RED << ko << " KO" << NC << std::endl;
+
+	while(1);
 	return (0);
 }

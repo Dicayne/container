@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 11:23:23 by llefranc          #+#    #+#             */
-/*   Updated: 2021/10/28 19:01:27 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:30:56 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 #include "../Utils/utils.hpp"
 
 #include "../Vector/vector.hpp"   // Comment if you don't want to test VECTOR
-// #include "../42_ft_containers/list.hpp"     // Comment if you don't want to test LIST
+// #include "..//list.hpp"     // Comment if you don't want to test LIST
 #include "../Stack/stack.hpp"    // Comment if you don't want to test STACK
-// #include "../42_ft_containers/queue.hpp"    // Comment if you don't want to test QUEUE
+// #include "..//queue.hpp"    // Comment if you don't want to test QUEUE
 #include "../Map/map.hpp"      // Comment if you don't want to test MAP
 
 // ---------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 15:28:14 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 18:22:01 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:00:10 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ namespace ft
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -178,8 +178,11 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+						{
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
+						}
 					}
 					return (*this);
 				}
@@ -189,12 +192,13 @@ namespace ft
 					Node *start = find_start_node(this->_root);
 					Node *min_val = find_min_node(start);
 					Node *base_val = this->_root;
+
 					if (this->_root == min_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -202,8 +206,9 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (!this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
 					}
 					return (*this);
 				}
@@ -347,7 +352,7 @@ namespace ft
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -355,8 +360,11 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+						{
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
+						}
 					}
 					return (*this);
 				}
@@ -366,12 +374,13 @@ namespace ft
 					Node *start = find_start_node(this->_root);
 					Node *min_val = find_min_node(start);
 					Node *base_val = this->_root;
+
 					if (this->_root == min_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -379,8 +388,9 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (!this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
 					}
 					return (*this);
 				}
@@ -470,6 +480,13 @@ namespace ft
 				Node *get_last() const {return (this->_last);}
 				key_compare get_comp() const {return (this->_comp);}
 
+				iterator base()
+				{
+					map_reverse_iterator cpy = *this;
+					--cpy;
+					return ((iterator(cpy._root, _last)));
+				}
+
 				map_reverse_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
@@ -481,7 +498,7 @@ namespace ft
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -489,8 +506,11 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+						{
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
+						}
 					}
 					return (*this);
 				}
@@ -500,12 +520,13 @@ namespace ft
 					Node *start = find_start_node(this->_root);
 					Node *min_val = find_min_node(start);
 					Node *base_val = this->_root;
+
 					if (this->_root == min_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -513,8 +534,9 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (!this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
 					}
 					return (*this);
 				}
@@ -653,6 +675,13 @@ namespace ft
 				Node *get_last() const {return (this->_last);}
 				key_compare get_comp() const {return (this->_comp);}
 
+				const_iterator base()
+				{
+					map_const_reverse_iterator cpy = *this;
+					--cpy;
+					return ((const_iterator(cpy._root, _last)));
+				}
+
 				map_const_reverse_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
@@ -664,7 +693,7 @@ namespace ft
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -672,8 +701,11 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+						{
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
+						}
 					}
 					return (*this);
 				}
@@ -683,12 +715,13 @@ namespace ft
 					Node *start = find_start_node(this->_root);
 					Node *min_val = find_min_node(start);
 					Node *base_val = this->_root;
+
 					if (this->_root == min_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
 					}
-					if (this->_root->left != this->_last)
+					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
 						this->_root = find_max_node(this->_root);
@@ -696,8 +729,9 @@ namespace ft
 					else
 					{
 						this->_root = this->_root->parent;
-						while (!this->_comp(this->_root->value.first, base_val->value.first))
-							this->_root = this->_root->parent;
+						if (this->_root != start && base_val != this->_last)
+							while (!this->_comp(this->_root->value.first, base_val->value.first))
+								this->_root = this->_root->parent;
 					}
 					return (*this);
 				}

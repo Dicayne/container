@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 19:05:19 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:07:24 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,23 +142,50 @@ namespace ft
 
 																		// ITERATORS //
 
-				iterator begin( void ) {return iterator(find_lower_node(), this->_last);}
-				const_iterator begin( void ) const {return const_iterator(find_lower_node(), this->_last);}
+				iterator begin( void )
+				{
+					if (this->_size > 0)
+						return iterator(find_lower_node(), this->_last);
+					else
+						return iterator(this->_last, this->_last);
+				}
+
+				const_iterator begin( void ) const
+				{
+					if (this->_size > 0)
+						return iterator(find_lower_node(), this->_last);
+					else
+						return iterator(this->_last, this->_last);
+				}
 
 				iterator end( void )
 				{
-					Node *tmp = find_high_node();
-					tmp->right->parent = tmp;
-					tmp->left->parent = tmp;
-					return iterator(tmp->right, this->_last);
+					if (this->_size == 1)
+						this->_last->parent = this->_root;
+					if (this->_size > 0)
+					{
+						Node *tmp = find_high_node();
+						tmp->right->parent = tmp;
+						tmp->left->parent = tmp;
+						return iterator(tmp->right, this->_last);
+					}
+					else
+						return iterator(this->_last, this->_last);
 				}
 
 				const_iterator end( void ) const
 				{
-					Node *tmp = find_high_node();
-					tmp->right->parent = tmp;
-					tmp->left->parent = tmp;
-					return const_iterator(tmp->right, this->_last);
+					if (this->_size == 1)
+						this->_last->parent = this->_root;
+					if (this->_size > 0)
+					{
+						Node *tmp = find_high_node();
+						tmp->right->parent = tmp;
+						tmp->left->parent = tmp;
+						return iterator(tmp->right, this->_last);
+					}
+					else
+						return iterator(this->_last, this->_last);
 				}
 
 				reverse_iterator rbegin( void ) { return reverse_iterator(--this->end()); }
@@ -314,26 +341,37 @@ namespace ft
 				{
 					key_type min = find_lower_node()->value.first;
 					key_type max = find_high_node()->value.first;
+
 					if (find(k) != this->end())
 						return (find(k));
-					else if (this->_comp(k, min))
-						return (this->begin());
-					else if (this->_comp(k, max))
-						return (find_close_node(k));
+					if (this->_size != 0)
+					{
+						if (this->_comp(k, min))
+							return (this->begin());
+						else if (this->_comp(k, max))
+							return (find_close_node(k));
+						else
+							return (this->end());
+					}
 					else
 						return (this->end());
 				}
 				const_iterator lower_bound (const key_type& k) const
 				{
-					// std::cout << "PASS CONST\n";
 					key_type min = find_lower_node()->value.first;
 					key_type max = find_high_node()->value.first;
+
 					if (find(k) != this->end())
 						return (find(k));
-					else if (this->_comp(k, min))
-						return (this->begin());
-					else if (this->_comp(k, max))
-						return (find_close_node(k));
+					if (this->_size != 0)
+					{
+						if (this->_comp(k, min))
+							return (this->begin());
+						else if (this->_comp(k, max))
+							return (find_close_node(k));
+						else
+							return (this->end());
+					}
 					else
 						return (this->end());
 				}
@@ -342,27 +380,38 @@ namespace ft
 				{
 					key_type min = find_lower_node()->value.first;
 					key_type max = find_high_node()->value.first;
-					if (find(k) != this->end())
-						return (++find(k));
-					else if (this->_comp(k, min))
-						return (this->begin());
-					else if (this->_comp(k, max))
-						return (find_close_node(k));
+
+					if (this->_size != 0)
+					{
+						if (find(k) != this->end())
+							return (++find(k));
+						else if (this->_comp(k, min))
+							return (this->begin());
+						else if (this->_comp(k, max))
+							return (find_close_node(k));
+						else
+							return (this->end());
+					}
 					else
 						return (this->end());
 				}
 
 				const_iterator upper_bound (const key_type& k) const
 				{
-					// std::cout << "PASS CONST\n";
 					key_type min = find_lower_node()->value.first;
 					key_type max = find_high_node()->value.first;
-					if (find(k) != this->end())
-						return (++find(k));
-					else if (this->_comp(k, min))
-						return (this->begin());
-					else if (this->_comp(k, max))
-						return (find_close_node(k));
+
+					if (this->_size != 0)
+					{
+						if (find(k) != this->end())
+							return (++find(k));
+						else if (this->_comp(k, min))
+							return (this->begin());
+						else if (this->_comp(k, max))
+							return (find_close_node(k));
+						else
+							return (this->end());
+					}
 					else
 						return (this->end());
 				}
@@ -371,9 +420,16 @@ namespace ft
 				{
 					ft::pair<iterator,iterator> ret;
 
-					ret.first = lower_bound(k);
-					ret.second = upper_bound(k);
-
+					if (this->empty() == false)
+					{
+						ret.first = lower_bound(k);
+						ret.second = upper_bound(k);
+					}
+					else
+					{
+						ret.first = this->end();
+						ret.second = this->end();
+					}
 					return (ret);
 				}
 
@@ -382,9 +438,16 @@ namespace ft
 					// std::cout << "PASS CONST\n";
 					ft::pair<const_iterator,const_iterator> ret;
 
-					ret.first = lower_bound(k);
-					ret.second = upper_bound(k);
-
+					if (this->empty() == false)
+					{
+						ret.first = lower_bound(k);
+						ret.second = upper_bound(k);
+					}
+					else
+					{
+						ret.first = this->end();
+						ret.second = this->end();
+					}
 					return (ret);
 				}
 
@@ -566,5 +629,72 @@ namespace ft
 					reset_parent(root->left, root);
 				}
 		};
+		/////////// NON MEMBER FUNCTION ///////////////
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator==(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			if (lhs.size() == rhs.size())
+			{
+				typename map<Key, T, Compare, Alloc>::const_iterator lit(lhs.begin());
+				typename map<Key, T, Compare, Alloc>::const_iterator rit(rhs.begin());
+				while (lit != lhs.end())
+				{
+					if (*lit != *rit)
+						return false;
+					++lit;
+					++rit;
+				}
+				return true;
+			}
+			return false;
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator!=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			return !(lhs == rhs);
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator<(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			typename map<Key, T, Compare, Alloc>::const_iterator lit = lhs.begin();
+			typename map<Key, T, Compare, Alloc>::const_iterator rit = rhs.begin();
+
+			while (lit != lhs.end())
+			{
+				if (rit == rhs.end() || *rit < *lit)
+					return false;
+				else if (*lit < *rit)
+					return true;
+				++lit;
+				++rit;
+			}
+			return rit != rhs.end();
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator<=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			return !(rhs < lhs);
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator>(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			return rhs < lhs;
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		bool operator>=(const map<Key, T, Compare, Alloc> &lhs, const map<Key, T, Compare, Alloc> &rhs)
+		{
+			return !(lhs < rhs);
+		}
+
+	template <class Key, class T, class Compare, class Alloc>
+		void swap(map<Key, T, Compare, Alloc> &x, map<Key, T, Compare, Alloc> &y)
+		{
+			x.swap(y);
+		}
 }
 #endif

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:05:32 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 18:55:56 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:36:01 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,12 @@ namespace ft
 			typedef const T*							const_pointer;
 			typedef T&									reference;
 			typedef const T&							const_reference;
+			typedef vec_iterator< T >					iterator;
 			value_type *p;
 
 			vec_const_iterator(void) : p(NULL) {}
 			vec_const_iterator(pointer ptr) : p(ptr) {}
-
+			vec_const_iterator(iterator it) : p(it.p) {}
 			vec_const_iterator& operator=(const vec_const_iterator& rhs) { this->p = rhs.p; return *this;}
 			vec_const_iterator& operator++() { ++p; return *this;}
 			vec_const_iterator operator++(int) {vec_const_iterator tmp(*this); operator++(); return tmp;}
@@ -120,6 +121,7 @@ namespace ft
 			reference operator*() const { return *p; }
 			pointer operator->() const { return p; }
 			reference operator[](difference_type n) {return p[-n];}
+			iterator base() const { return iterator(p + 1); }
 
 			vec_reverse_iterator operator+(difference_type n) {return (p - n);}
 			vec_reverse_iterator operator-(difference_type n) {return (p + n);}
@@ -148,15 +150,16 @@ namespace ft
 			typedef const T*							const_pointer;
 			typedef T&									reference;
 			typedef const T&							const_reference;
-			typedef vec_iterator< T >						iterator;
-			typedef vec_const_iterator< T >					const_iterator;
-
+			typedef vec_iterator< T >					iterator;
+			typedef vec_const_iterator< T >				const_iterator;
+			typedef vec_reverse_iterator< T >			reverse_iterator;
 			value_type *p;
 
 			vec_const_reverse_iterator(void) : p(NULL) {}
 			vec_const_reverse_iterator(pointer ptr) : p(ptr) {}
 			vec_const_reverse_iterator(iterator it) : p(it.p) {}
 			vec_const_reverse_iterator(const_iterator it) : p(it.p) {}
+			vec_const_reverse_iterator(reverse_iterator it) : p(it.p) {}
 
 			vec_const_reverse_iterator& operator=(const vec_const_reverse_iterator& rhs) { this->p = rhs.p; return *this;}
 			vec_const_reverse_iterator& operator++() { --p; return *this;}
@@ -166,6 +169,7 @@ namespace ft
 			reference operator*() const { return *p; }
 			pointer operator->() const { return p; }
 			reference operator[](difference_type n) {return p[-n];}
+			const_iterator base() const { return const_iterator(p + 1); }
 
 			vec_const_reverse_iterator operator+(difference_type n) {return (p - n);}
 			vec_const_reverse_iterator operator-(difference_type n) {return (p + n);}

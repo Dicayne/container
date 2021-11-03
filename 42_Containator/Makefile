@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+         #
+#    By: llefranc <llefranc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/04 11:24:58 by llefranc          #+#    #+#              #
-#    Updated: 2021/10/28 19:06:12 by vmoreau          ###   ########.fr        #
+#    Updated: 2021/07/16 16:29:55 by llefranc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	containers_test
 CC			=	clang++
-FLAGS		=	-Wall -Wextra -Werror -std=c++98
+FLAGS		=	-g -fsanitize=address -Wall -Wextra -Werror -std=c++98
 
 SRCS		=	select_your_tests/select_containers.cpp includes_and_utils/utils.cpp
 
@@ -38,7 +38,7 @@ $(OBJS)	:	$(addprefix $(PATH_CON), $(HEADER_CON)) $(addprefix $(PATH_TEM), $(HEA
 			$(addprefix $(PATH_ITE), $(HEADER_ITE)) $(addprefix $(PATH_TEST), $(HEADER_TEST)) \
 			$(addprefix $(PATH_INC), $(HEADER_INC))
 
-clean	:
+clean	:	
 				@rm -rf $(OBJS)
 
 fclean	:	clean

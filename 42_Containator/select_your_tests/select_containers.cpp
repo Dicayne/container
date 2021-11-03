@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:37:35 by hherin            #+#    #+#             */
-/*   Updated: 2021/10/28 19:08:57 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/10/29 17:31:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int main(void)
     // CHOOSE HERE WHICH CONTAINERS YOU WANT TO TEST. YOU HAVE ALSO TO COMMENT
     // THE WHOLE FUNCTION BELOW.
 
-    // testVector(arrInt, arrString);  // Comment if you don't want to test VECTOR
-    // testList(arrInt, arrString);    // Comment if you don't want to test LIST
+    testVector(arrInt, arrString);  // Comment if you don't want to test VECTOR
+   //  testList(arrInt, arrString);    // Comment if you don't want to test LIST
     testStack(arrInt, arrString);   // Comment if you don't want to test STACK
-    // testQueue(arrInt, arrString);   // Comment if you don't want to test QUEUE
-    // testMap(arrInt, arrString);     // Comment if you don't want to test MAP
+   //  testQueue(arrInt, arrString);   // Comment if you don't want to test QUEUE
+    testMap(arrInt, arrString);     // Comment if you don't want to test MAP
 
     // ---------------------------------------------------------------------------
 }
@@ -49,31 +49,31 @@ int main(void)
 // ---------------------------------------------------------------------------
 // COMMENT THE WHOLE FUNCTION IF YOU DON'T WANT TO TEST VECTOR.
 // ---------------------------------------------------------------------------
-// void    testVector(const int (&arrInt)[20], const std::string (&arrString)[20])
-// {
-//     //save old buf
-//     std::streambuf *coutbuf = std::cout.rdbuf();
+void    testVector(const int (&arrInt)[20], const std::string (&arrString)[20])
+{
+    //save old buf
+    std::streambuf *coutbuf = std::cout.rdbuf();
 
-//     std::ofstream stdFile("results/vector_std.txt");
-//     std::ofstream ftFile("results/vector_ft.txt");
+    std::ofstream stdFile("results/vector_std.txt");
+    std::ofstream ftFile("results/vector_ft.txt");
 
-//     //redirect std::cout to std::vector_result.txt
-//     std::cout.rdbuf(stdFile.rdbuf());
+    //redirect std::cout to std::vector_result.txt
+    std::cout.rdbuf(stdFile.rdbuf());
 
-//     /* STL TESTS */
-//     constructVectorList<int, std::vector<int> >(arrInt, testNotConstVec<std::vector<int> >, testConstVec<const std::vector<int> >);
-//     constructVectorList<std::string, std::vector<std::string> >(arrString, testNotConstVec<std::vector<std::string> >, testConstVec<const std::vector<std::string> >);
+    /* STL TESTS */
+    constructVectorList<int, std::vector<int> >(arrInt, testNotConstVec<std::vector<int> >, testConstVec<const std::vector<int> >);
+    constructVectorList<std::string, std::vector<std::string> >(arrString, testNotConstVec<std::vector<std::string> >, testConstVec<const std::vector<std::string> >);
 
-//     //redirect std::cout to ft::vector_result.txt
-//     std::cout.rdbuf(ftFile.rdbuf());
+    //redirect std::cout to ft::vector_result.txt
+    std::cout.rdbuf(ftFile.rdbuf());
 
-//     /* FT TESTS */
-//     constructVectorList<int, ft::vector<int> >(arrInt, testNotConstVec<ft::vector<int> >, testConstVec<const ft::vector<int> >);
-//     constructVectorList<std::string, ft::vector<std::string> >(arrString, testNotConstVec<ft::vector<std::string> >, testConstVec<const ft::vector<std::string> >);
+    /* FT TESTS */
+    constructVectorList<int, ft::vector<int> >(arrInt, testNotConstVec<ft::vector<int> >, testConstVec<const ft::vector<int> >);
+    constructVectorList<std::string, ft::vector<std::string> >(arrString, testNotConstVec<ft::vector<std::string> >, testConstVec<const ft::vector<std::string> >);
 
-//     //reset to standard output again
-//     std::cout.rdbuf(coutbuf);
-// }
+    //reset to standard output again
+    std::cout.rdbuf(coutbuf);
+}
 
 
 // ---------------------------------------------------------------------------
@@ -159,7 +159,7 @@ void    testStack(const int (&arrInt)[20], const std::string (&arrString)[20])
 
 //  /* FT TESTS */
 //     constructStackQueue<int, ft::queue<int, std::list<int> >, std::list<int> >(arrInt, testNonConstQueue<ft::queue<int, std::list<int> > >);
-//     constructStackQueue<std::string, ft::queue<std::string, std::list<std::string> >, std::list<std::string> >(arrString, testNonConstQueue<ft::queue<std::string, ft::list<std::string> > >);
+//     constructStackQueue<std::string, ft::queue<std::string, std::list<std::string> >, std::list<std::string> >(arrString, testNonConstQueue<ft::queue<std::string, std::list<std::string> > >);
 
 //  //reset to standard output again
 //     std::cout.rdbuf(coutbuf);
@@ -169,31 +169,31 @@ void    testStack(const int (&arrInt)[20], const std::string (&arrString)[20])
 // ---------------------------------------------------------------------------
 // COMMENT THE WHOLE FUNCTION IF YOU DON'T WANT TO TEST MAP.
 // ---------------------------------------------------------------------------
-// void    testMap(const int (&arrInt)[20], const std::string (&arrString)[20])
-// {
-//  //save old buf
-//     std::streambuf *coutbuf = std::cout.rdbuf();
+void    testMap(const int (&arrInt)[20], const std::string (&arrString)[20])
+{
+ //save old buf
+    std::streambuf *coutbuf = std::cout.rdbuf();
 
-//     std::ofstream stdFile("results/map_std.txt");
-//     std::ofstream ftFile("results/map_ft.txt");
+    std::ofstream stdFile("results/map_std.txt");
+    std::ofstream ftFile("results/map_ft.txt");
 
-//  //redirect std::cout to ft::map_result.txt
-//     std::cout.rdbuf(stdFile.rdbuf());
-//  /* STL TESTS */
-//     constructMap<int, std::string, std::map<int, std::string>, std::pair<int, std::string> >
-//         (arrInt, arrString, testNotConstMap<std::map<int, std::string> >, testConstMap<const std::map<int, std::string> >);
-//     constructMap<std::string, int, std::map<std::string, int>, std::pair<std::string, int> >
-//         (arrString, arrInt, testNotConstMap<std::map<std::string, int> >, testConstMap<const std::map<std::string, int> >);
+ //redirect std::cout to ft::map_result.txt
+    std::cout.rdbuf(stdFile.rdbuf());
+ /* STL TESTS */
+    constructMap<int, std::string, std::map<int, std::string>, std::pair<int, std::string> >
+        (arrInt, arrString, testNotConstMap<std::map<int, std::string> >, testConstMap<const std::map<int, std::string> >);
+    constructMap<std::string, int, std::map<std::string, int>, std::pair<std::string, int> >
+        (arrString, arrInt, testNotConstMap<std::map<std::string, int> >, testConstMap<const std::map<std::string, int> >);
 
-//  //redirect std::cout to std::map_result.txt
-//     std::cout.rdbuf(ftFile.rdbuf());
+ //redirect std::cout to std::map_result.txt
+    std::cout.rdbuf(ftFile.rdbuf());
 
-//  /* FT TESTS */
-//     constructMap<int, std::string, ft::map<int, std::string>, ft::pair<int, std::string> >
-//         (arrInt, arrString, testNotConstMap<ft::map<int, std::string> >, testConstMap<const ft::map<int, std::string> >);
-//     constructMap<std::string, int, ft::map<std::string, int>, ft::pair<std::string, int> >
-//         (arrString, arrInt, testNotConstMap<ft::map<std::string, int> >, testConstMap<const ft::map<std::string, int> >);
+ /* FT TESTS */
+    constructMap<int, std::string, ft::map<int, std::string>, ft::pair<int, std::string> >
+        (arrInt, arrString, testNotConstMap<ft::map<int, std::string> >, testConstMap<const ft::map<int, std::string> >);
+    constructMap<std::string, int, ft::map<std::string, int>, ft::pair<std::string, int> >
+        (arrString, arrInt, testNotConstMap<ft::map<std::string, int> >, testConstMap<const ft::map<std::string, int> >);
 
-//  //reset to standard output again
-//     std::cout.rdbuf(coutbuf);
-// }
+ //reset to standard output again
+    std::cout.rdbuf(coutbuf);
+}

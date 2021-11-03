@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 18:56:45 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/03 17:10:56 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ namespace ft
 				}
 			}
 
-			size_type capacity() {return this->_capacity;} // Return size of allocated storage capacity.
+			size_type capacity() const {return this->_capacity;} // Return size of allocated storage capacity.
 
 			bool empty() const{return (this->_size == 0 ? true : false);} // Test whether vector is empty.
 
@@ -251,10 +251,8 @@ namespace ft
 				if (this->_array != NULL)
 					this->clear();
 				if (this->_capacity < sz)
-				{
 					this->_capacity = sz;
-					this->_alloc.deallocate(this->_array, this->_capacity);
-				}
+				this->_alloc.deallocate(this->_array, this->_capacity);
 				this->_array = this->_alloc.allocate(sizeof(T) * sz);
 				this->_size = sz;
 				for (size_t i = 0; i < this->_size; i++)
@@ -269,10 +267,8 @@ namespace ft
 				if (this->_array != NULL)
 					this->clear();
 				if (this->_capacity < n)
-				{
 					this->_capacity = n;
-					this->_alloc.deallocate(this->_array, this->_capacity);
-				}
+				this->_alloc.deallocate(this->_array, this->_capacity);
 				this->_array = this->_alloc.allocate(sizeof(T) * n);
 				this->_size = n;
 				for (size_t i = 0; i < this->_size; i++)
@@ -402,7 +398,8 @@ namespace ft
 					while (last != this->end())
 					{
 						tmp = last;
-						this->_alloc.destroy(&(*first));
+						// @@@@@@@@@ ASKIP DOUBLE FREE AVEC CA ! @@@@@@@@@ //
+						// this->_alloc.destroy(&(*first));
 						this->_alloc.construct(&(*first), *tmp);
 						last++;
 						first++;
