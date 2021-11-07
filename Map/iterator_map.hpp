@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 15:28:14 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/03 17:00:10 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/06 20:31:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ namespace ft
 				typedef ft::pair<const key_type, mapped_type>				value_type;
 				typedef Tree_node<value_type>								Node;
 
+	// Bidirectional iterators are iterators that can be used to access the sequence of elements in a range in both directions //
 				typedef std::bidirectional_iterator_tag 					iterator_category;
 
 				typedef typename std::ptrdiff_t 							difference_type;
@@ -60,14 +61,14 @@ namespace ft
 					return (root);
 				}
 
-				Node* find_min_node(Node *root)
+				Node* find_left_node(Node *root)
 				{
 					while (root->left != root->left->left && root->left != this->_last)
 						root = root->left;
 					return (root);
 				}
 
-				Node* find_max_node(Node *root)
+				Node* find_right_node(Node *root)
 				{
 					while (root->right != root->right->right && root->right != this->_last)
 						root = root->right;
@@ -112,10 +113,10 @@ namespace ft
 				map_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
 						return (*this);
@@ -123,7 +124,7 @@ namespace ft
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -136,19 +137,20 @@ namespace ft
 
 				map_iterator operator++(int)
 				{
+					map_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -156,16 +158,16 @@ namespace ft
 						while (this->_comp(this->_root->value.first, base_val->value.first))
 							this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 
 				map_iterator &operator--()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
@@ -173,7 +175,7 @@ namespace ft
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -189,19 +191,20 @@ namespace ft
 
 				map_iterator operator--(int)
 				{
+					map_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -210,7 +213,7 @@ namespace ft
 							while (!this->_comp(this->_root->value.first, base_val->value.first))
 								this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 		};
 
@@ -244,15 +247,17 @@ namespace ft
 					return (root);
 				}
 
-				Node* find_min_node(Node *root)
+				Node* find_left_node(Node *root)
 				{
+					std::cout << std::boolalpha << "askdfalksdhflaksjdf: " << _comp(3, 4) << std::endl;
 					while (root->left != root->left->left && root->left != this->_last)
 						root = root->left;
 					return (root);
 				}
 
-				Node* find_max_node(Node *root)
+				Node* find_right_node(Node *root)
 				{
+					std::cout << std::boolalpha << "askdfalksdhflaksjdf: " << _comp(3, 4) << std::endl;
 					while (root->right != root->right->right && root->right != this->_last)
 						root = root->right;
 					return (root);
@@ -294,10 +299,10 @@ namespace ft
 				map_const_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
 						return (*this);
@@ -305,7 +310,7 @@ namespace ft
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -318,19 +323,20 @@ namespace ft
 
 				map_const_iterator operator++(int)
 				{
+					map_const_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -338,16 +344,16 @@ namespace ft
 						while (this->_comp(this->_root->value.first, base_val->value.first))
 							this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 
 				map_const_iterator &operator--()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
@@ -355,7 +361,7 @@ namespace ft
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -371,19 +377,20 @@ namespace ft
 
 				map_const_iterator operator--(int)
 				{
+					map_const_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -392,7 +399,7 @@ namespace ft
 							while (!this->_comp(this->_root->value.first, base_val->value.first))
 								this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 		};
 
@@ -428,14 +435,14 @@ namespace ft
 					return (root);
 				}
 
-				Node* find_min_node(Node *root)
+				Node* find_left_node(Node *root)
 				{
 					while (root->left != root->left->left && root->left != this->_last)
 						root = root->left;
 					return (root);
 				}
 
-				Node* find_max_node(Node *root)
+				Node* find_right_node(Node *root)
 				{
 					while (root->right != root->right->right && root->right != this->_last)
 						root = root->right;
@@ -490,10 +497,10 @@ namespace ft
 				map_reverse_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
@@ -501,7 +508,7 @@ namespace ft
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -517,19 +524,20 @@ namespace ft
 
 				map_reverse_iterator operator++(int)
 				{
+					map_reverse_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -538,16 +546,16 @@ namespace ft
 							while (!this->_comp(this->_root->value.first, base_val->value.first))
 								this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 
 				map_reverse_iterator &operator--()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
 						return (*this);
@@ -555,7 +563,7 @@ namespace ft
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -568,19 +576,20 @@ namespace ft
 
 				map_reverse_iterator operator--(int)
 				{
+					map_reverse_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -588,7 +597,7 @@ namespace ft
 						while (this->_comp(this->_root->value.first, base_val->value.first))
 							this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 		};
 
@@ -624,14 +633,14 @@ namespace ft
 					return (root);
 				}
 
-				Node* find_min_node(Node *root)
+				Node* find_left_node(Node *root)
 				{
 					while (root->left != root->left->left && root->left != this->_last)
 						root = root->left;
 					return (root);
 				}
 
-				Node* find_max_node(Node *root)
+				Node* find_right_node(Node *root)
 				{
 					while (root->right != root->right->right && root->right != this->_last)
 						root = root->right;
@@ -685,10 +694,10 @@ namespace ft
 				map_const_reverse_iterator &operator++()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
 						return (*this);
@@ -696,7 +705,7 @@ namespace ft
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -712,19 +721,20 @@ namespace ft
 
 				map_const_reverse_iterator operator++(int)
 				{
+					map_const_reverse_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *min_val = find_min_node(start);
+					Node *left_val = find_left_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == min_val)
+					if (this->_root == left_val)
 					{
 						this->_root = this->_root->left;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->left != this->_last && this->_root != this->_last)
 					{
 						this->_root = this->_root->left;
-						this->_root = find_max_node(this->_root);
+						this->_root = find_right_node(this->_root);
 					}
 					else
 					{
@@ -733,16 +743,16 @@ namespace ft
 							while (!this->_comp(this->_root->value.first, base_val->value.first))
 								this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 
 				map_const_reverse_iterator &operator--()
 				{
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
 						return (*this);
@@ -750,7 +760,7 @@ namespace ft
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -763,19 +773,20 @@ namespace ft
 
 				map_const_reverse_iterator operator--(int)
 				{
+					map_const_reverse_iterator ret = *this;
 					Node *start = find_start_node(this->_root);
-					Node *max_val = find_max_node(start);
+					Node *right_val = find_right_node(start);
 					Node *base_val = this->_root;
 
-					if (this->_root == max_val)
+					if (this->_root == right_val)
 					{
 						this->_root = this->_root->right;
-						return (*this);
+						return (ret);
 					}
 					if (this->_root->right != this->_last && this->_root->right != this->_root->right->right)
 					{
 						this->_root = this->_root->right;
-						this->_root = find_min_node(this->_root);
+						this->_root = find_left_node(this->_root);
 					}
 					else
 					{
@@ -783,7 +794,7 @@ namespace ft
 						while (this->_comp(this->_root->value.first, base_val->value.first))
 							this->_root = this->_root->parent;
 					}
-					return (*this);
+					return (ret);
 				}
 		};
 }

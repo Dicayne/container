@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/03 17:07:24 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/06 20:26:25 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -537,11 +537,27 @@ namespace ft
 						while (curent != this->_last)
 						{
 							previous = curent;
+							// if (this->_comp(n->value.first, curent->value.first))
+							// 	curent = curent->left;
+							// else
+							// 	curent = curent->right;
 							if (n->value < curent->value)
 								curent = curent->left;
 							else if (n->value > curent->value)
 								curent = curent->right;
 						}
+						std::cout << std::boolalpha << "MAP: " << _comp(3, 40) << std::endl;
+
+						// if (this->_comp(n->value.first, previous->value.first))
+						// {
+						// 	previous->left = n;
+						// 	previous->left->parent = previous;
+						// }
+						// else
+						// {
+						// 	previous->right = n;
+						// 	previous->right->parent = previous;
+						// }
 						if (n->value < previous->value)
 						{
 							previous->left = n;

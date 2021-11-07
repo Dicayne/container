@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/03 17:10:56 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:15:06 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,11 +143,11 @@ namespace ft
 			iterator end( void ) {return iterator(&this->_array[this->_size]);}
 			const_iterator end( void ) const {return const_iterator(&this->_array[this->_size]);}
 
-			reverse_iterator rbegin( void ) { return reverse_iterator(--this->end()); }
-			const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(--this->end()); }
+			reverse_iterator rbegin( void ) { return reverse_iterator(&this->_array[this->_size - 1]);}
+			const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(&this->_array[this->_size - 1]);}
 
-			reverse_iterator rend( void ) { return reverse_iterator(--this->begin()); }
-			const_reverse_iterator rend( void ) const { return const_reverse_iterator(--this->begin()); }
+			reverse_iterator rend( void ) { return reverse_iterator(this->_array - 1); }
+			const_reverse_iterator rend( void ) const { return const_reverse_iterator(this->_array - 1); }
 
 
 																		// CAPACITY //
