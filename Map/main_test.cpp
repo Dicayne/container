@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/03 16:59:36 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/09 02:15:41 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,39 +144,22 @@ void test_capacity()
 void test_iterator()
 {
 	std::cout << YELLOW << "----TEST ITERATOR BEGIN----\n" << NC;
-	ns::map<int, std::string> m1;
+	ns::map<char, int> m1;
 
-	// m1['Z'] = 12;
-	// m1['X'] = 54;
-	// m1['A'] = 7;
-	// m1['F'] = -2;
-	// m1['G'] = 43;
-	// m1['L'] = 89;
-	// m1['O'] = 70;
-	// m1['B'] = 34;
-	// m1['P'] = 4;
+	m1['Z'] = 12;
+	m1['X'] = 54;
+	m1['A'] = 7;
+	m1['F'] = -2;
+	m1['G'] = 43;
+	m1['L'] = 89;
+	m1['O'] = 70;
+	m1['B'] = 34;
+	m1['P'] = 4;
 
-
-	// display(m1);
-	// m1[-2147483648] = "kafeolait";
-	// m1[0] = "jul d'ananas";
-	// m1[256] = "oui-oui";
-	m1[58966] = "hello coco";
-	m1[2147483647] = "j'arrive";
-
-	// m1.display();
 	std::cout << CYAN << "m1.begin() = " << NC << m1.begin()->first << ": " << m1.begin()->second << NC << std::endl;
 	std::cout << CYAN << "--m1.end() = " << NC << (--m1.end())->first << ": " << (--m1.end())->second << NC << std::endl;
 	std::cout << CYAN << "m1.rbegin() = " << NC << m1.rbegin()->first << ": " << m1.rbegin()->second << NC << std::endl;
 	std::cout << CYAN << "--m1.rend() = " << NC << (--m1.rend())->first << ": " << (--m1.rend())->second << NC << std::endl << std::endl;
-
-	// m1.clear();
-	// ns::map<char, int>::const_iterator it = m1.end();
-	// if (it != m1.end())
-	// 		std::cout << it->first << ": " << it->second << std::endl;
-	// it--;
-	for (ns::map<int, std::string>::const_reverse_iterator it = m1.rbegin(); it != m1.rend(); ++it)
-		std::cout << it->first << ": " << it->second << std::endl;
 
 	std::cout << YELLOW << "----TEST ITERATOR END----\n\n" << NC;
 }
@@ -622,29 +605,14 @@ void test_allocator()
 
 int main()
 {
-	std::cout << "Namespace = " << NAMS << std::endl;
-	// test_member_function();
-	// test_iterator();
-	// test_capacity();
-	// test_element_access();
-	// test_modifiers();
-	// test_observers();
-	// test_operations();
-	// test_allocator();
-
-	ns::map<char, int> m;
-
-	m['Z'] = 12;
-	m['X'] = 54;
-	m['A'] = 5;
-	m['F'] = -2;
-	m['B'] = 6;
-	m['G'] = 43;
-	m['L'] = 89;
-
-	ns::map<char, int>::iterator _it = m.begin();
-	ns::map<char, int>::reverse_iterator it(_it);
-
-	it.base()
+	// std::cout << "Namespace = " << NAMS << std::endl;
+	test_member_function();
+	test_iterator();
+	test_capacity();
+	test_element_access();
+	test_modifiers();
+	test_observers();
+	test_operations();
+	test_allocator();
 	return (0);
 }

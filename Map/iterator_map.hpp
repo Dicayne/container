@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 15:28:14 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/06 20:31:29 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/08 18:32:52 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ namespace ft
 			int b;
 		};
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare, class Alloc = std::allocator< ft::pair<const Key, T> > >
 		class map_iterator
 		{
 			private :
@@ -217,7 +217,7 @@ namespace ft
 				}
 		};
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare, class Alloc = std::allocator< ft::pair<const Key, T> > >
 		class map_const_iterator
 		{
 			private :
@@ -234,7 +234,7 @@ namespace ft
 				typedef typename std::ptrdiff_t 							difference_type;
 				typedef typename allocator_type::const_reference			const_reference;
 				typedef typename allocator_type::const_pointer				const_pointer;
-				typedef map_iterator<Key, T>								iterator;
+				typedef map_iterator<Key, T, Compare>								iterator;
 
 				Node 		*_root;
 				Node 		*_last;
@@ -249,7 +249,6 @@ namespace ft
 
 				Node* find_left_node(Node *root)
 				{
-					std::cout << std::boolalpha << "askdfalksdhflaksjdf: " << _comp(3, 4) << std::endl;
 					while (root->left != root->left->left && root->left != this->_last)
 						root = root->left;
 					return (root);
@@ -257,7 +256,6 @@ namespace ft
 
 				Node* find_right_node(Node *root)
 				{
-					std::cout << std::boolalpha << "askdfalksdhflaksjdf: " << _comp(3, 4) << std::endl;
 					while (root->right != root->right->right && root->right != this->_last)
 						root = root->right;
 					return (root);
@@ -404,7 +402,7 @@ namespace ft
 		};
 
 // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ // REVERSE
-			template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair<const Key, T> > >
+			template < class Key, class T, class Compare, class Alloc = std::allocator< ft::pair<const Key, T> > >
 		class map_reverse_iterator
 		{
 			private :
@@ -422,7 +420,7 @@ namespace ft
 				typedef typename allocator_type::reference					reference;
 				typedef typename allocator_type::pointer					pointer;
 
-				typedef map_iterator<Key, T>								iterator;
+				typedef map_iterator<Key, T, Compare>						iterator;
 
 				Node 		*_root;
 				Node 		*_last;
@@ -457,8 +455,11 @@ namespace ft
 				map_reverse_iterator(const map_reverse_iterator &i) : _root(i.get_root()), _last(i.get_last()), _comp(i.get_comp())
 				{ }
 
-				map_reverse_iterator(const iterator &i) : _root(i.get_root()), _last(i.get_last()), _comp(i.get_comp())
-				{ }
+				map_reverse_iterator(iterator it) : _root(NULL), _last(it.get_last()), _comp(it.get_comp())
+				{
+					--it;
+					this->_root = it.get_root();
+				}
 
 				~map_reverse_iterator()
 				{ }
@@ -601,7 +602,7 @@ namespace ft
 				}
 		};
 
-	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator< ft::pair<const Key, T> > >
+	template < class Key, class T, class Compare, class Alloc = std::allocator< ft::pair<const Key, T> > >
 		class map_const_reverse_iterator
 		{
 			private :
@@ -618,9 +619,9 @@ namespace ft
 				typedef typename std::ptrdiff_t 							difference_type;
 				typedef typename allocator_type::const_reference			const_reference;
 				typedef typename allocator_type::const_pointer				const_pointer;
-				typedef map_reverse_iterator<Key, T>							reverse_iterator;
-				typedef map_const_iterator<Key, T>								const_iterator;
-				typedef map_iterator<Key, T>									iterator;
+				typedef map_reverse_iterator<Key, T, Compare>							reverse_iterator;
+				typedef map_const_iterator<Key, T, Compare>								const_iterator;
+				typedef map_iterator<Key, T, Compare>									iterator;
 
 				Node 		*_root;
 				Node 		*_last;
@@ -655,10 +656,16 @@ namespace ft
 				{ }
 				map_const_reverse_iterator(const reverse_iterator &i) : _root(i.get_root()), _last(i.get_last()), _comp(i.get_comp())
 				{ }
-				map_const_reverse_iterator(const const_iterator &i) : _root(i.get_root()), _last(i.get_last()), _comp(i.get_comp())
-				{ }
-				map_const_reverse_iterator(const iterator &i) : _root(i.get_root()), _last(i.get_last()), _comp(i.get_comp())
-				{ }
+				map_const_reverse_iterator(const_iterator it) : _root(it.get_root()), _last(it.get_last()), _comp(it.get_comp())
+				{
+					--it;
+					this->_root = it.get_root();
+				}
+				map_const_reverse_iterator(iterator it) : _root(it.get_root()), _last(it.get_last()), _comp(it.get_comp())
+				{
+					--it;
+					this->_root = it.get_root();
+				}
 				~map_const_reverse_iterator()
 				{ }
 				map_const_reverse_iterator& operator=(const map_const_reverse_iterator& assign)

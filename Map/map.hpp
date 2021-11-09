@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/06 20:26:25 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/08 18:33:29 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,25 +24,25 @@ namespace ft
 		{
 			public:
 			// Types //
-				typedef Key													key_type;
-				typedef T													mapped_type;
-				typedef ft::pair<const key_type, mapped_type>				value_type;
-				typedef Compare												key_compare;
-				typedef std::less<value_type>								value_compare;
-				typedef Alloc												allocator_type;
-				typedef Tree_node<value_type>								Node;
+				typedef Key															key_type;
+				typedef T															mapped_type;
+				typedef ft::pair<const key_type, mapped_type>						value_type;
+				typedef Compare														key_compare;
+				typedef std::less<value_type>										value_compare;
+				typedef Alloc														allocator_type;
+				typedef Tree_node<value_type>										Node;
 
-				typedef typename allocator_type::reference					reference;
-				typedef typename allocator_type::const_reference			const_reference;
-				typedef typename allocator_type::pointer					pointer;
-				typedef typename allocator_type::const_pointer				const_pointer;
-				typedef std::ptrdiff_t										difference_type;
-				typedef size_t												size_type;
+				typedef typename allocator_type::reference							reference;
+				typedef typename allocator_type::const_reference					const_reference;
+				typedef typename allocator_type::pointer							pointer;
+				typedef typename allocator_type::const_pointer						const_pointer;
+				typedef std::ptrdiff_t												difference_type;
+				typedef size_t														size_type;
 
-				typedef typename ft::map_iterator<Key, T>					iterator;
-				typedef typename ft::map_const_iterator<Key, T>				const_iterator;
-				typedef typename ft::map_reverse_iterator<Key, T>			reverse_iterator;
-				typedef typename ft::map_const_reverse_iterator<Key, T>		const_reverse_iterator;
+				typedef typename ft::map_iterator<Key, T, Compare>					iterator;
+				typedef typename ft::map_const_iterator<Key, T, Compare>			const_iterator;
+				typedef typename ft::map_reverse_iterator<Key, T, Compare>			reverse_iterator;
+				typedef typename ft::map_const_reverse_iterator<Key, T, Compare>	const_reverse_iterator;
 
 			private:
 
@@ -145,17 +145,17 @@ namespace ft
 				iterator begin( void )
 				{
 					if (this->_size > 0)
-						return iterator(find_lower_node(), this->_last);
+						return iterator(find_left_node(), this->_last, this->_comp);
 					else
-						return iterator(this->_last, this->_last);
+						return iterator(this->_last, this->_last, this->_comp);
 				}
 
 				const_iterator begin( void ) const
 				{
 					if (this->_size > 0)
-						return iterator(find_lower_node(), this->_last);
+						return iterator(find_left_node(), this->_last, this->_comp);
 					else
-						return iterator(this->_last, this->_last);
+						return iterator(this->_last, this->_last, this->_comp);
 				}
 
 				iterator end( void )
@@ -164,13 +164,13 @@ namespace ft
 						this->_last->parent = this->_root;
 					if (this->_size > 0)
 					{
-						Node *tmp = find_high_node();
+						Node *tmp = find_right_node();
 						tmp->right->parent = tmp;
 						tmp->left->parent = tmp;
-						return iterator(tmp->right, this->_last);
+						return iterator(tmp->right, this->_last, this->_comp);
 					}
 					else
-						return iterator(this->_last, this->_last);
+						return iterator(this->_last, this->_last, this->_comp);
 				}
 
 				const_iterator end( void ) const
@@ -179,45 +179,47 @@ namespace ft
 						this->_last->parent = this->_root;
 					if (this->_size > 0)
 					{
-						Node *tmp = find_high_node();
+						Node *tmp = find_right_node();
 						tmp->right->parent = tmp;
 						tmp->left->parent = tmp;
-						return iterator(tmp->right, this->_last);
+						return iterator(tmp->right, this->_last, this->_comp);
 					}
 					else
-						return iterator(this->_last, this->_last);
+						return iterator(this->_last, this->_last, this->_comp);
 				}
 
-				reverse_iterator rbegin( void ) { return reverse_iterator(--this->end()); }
-				const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(--this->end()); }
+				reverse_iterator rbegin( void ) { return reverse_iterator(this->end()); }
+				const_reverse_iterator rbegin( void ) const { return const_reverse_iterator(this->end()); }
 
 				reverse_iterator rend( void )
 				{
 					this->_last->right = this->_root;
 					this->_last->left = this->_root;
-					return reverse_iterator(--this->begin());
+					return reverse_iterator(this->begin());
 				}
 				const_reverse_iterator rend( void ) const
 				{
 					this->_last->right = this->_root;
 					this->_last->left = this->_root;
-					return const_reverse_iterator(--this->begin());
+					return const_reverse_iterator(this->begin());
 				}
 
 																		// CAPACITY //
 
-				bool empty() const {return (this->_size == 0 ? true : false);} // Test whether map is empty.
-				size_type size() const {return this->_size;} // Return size.
-				size_type max_size() const // max_size() -> Return maximum size.
-				{
-					return this->_alloc_node.max_size();
-				}
+				bool empty() const { return (this->_size == 0 ? true : false); } // Test whether map is empty.
+				size_type size() const { return this->_size; } // Return size.
+				size_type max_size() const { return this->_alloc_node.max_size(); } // max_size() -> Return maximum size.
 
 																		// ELEMENT ACCESS //
 				mapped_type& operator[] (const key_type& k)
 				{
-					mapped_type &ret = (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
-					return (ret);
+					Node *tmp = find_node(this->_root, k);
+
+					if (tmp != this->_last)
+						return tmp->value.second;
+					this->insert(ft::make_pair(k,mapped_type()));
+					tmp = find_node(this->_root, k);
+					return (tmp->value.second);
 				}
 
 																		// MODIFIERS //
@@ -236,13 +238,20 @@ namespace ft
 						this->_size++;
 					}
 					ret.first = find(val.first);
+					update_last();
 					return (ret);
 				}
 
 				iterator insert (iterator position, const value_type& val) // Insert Single Element with hint to accelerate search
 				{
-					(void)position;
-					return (insert(val).first);
+					Node *tmp = find_node(this->_root ,val.first);
+					iterator ret = position;
+
+					if (tmp != this->_last)
+						ret = iterator(tmp, this->_last, this->_comp);
+					else
+						ret = insert(val).first;
+					return ret;
 				}
 
 				template <class InputIterator>
@@ -326,8 +335,8 @@ namespace ft
 				value_compare value_comp() const {value_compare vc; return (vc);}
 
 																		// OPERATIONS //
-				iterator find (const key_type& k) { return (iterator(find_node(this->_root, k)));}
-				const_iterator find (const key_type& k) const { return (const_iterator(find_node(this->_root, k)));}
+				iterator find (const key_type& k) { return (iterator(find_node(this->_root, k), this->_last, this->_comp));}
+				const_iterator find (const key_type& k) const { return (const_iterator(find_node(this->_root, k), this->_last, this->_comp));}
 
 				size_type count (const key_type& k) const
 				{
@@ -339,8 +348,8 @@ namespace ft
 
 				iterator lower_bound (const key_type& k)
 				{
-					key_type min = find_lower_node()->value.first;
-					key_type max = find_high_node()->value.first;
+					key_type min = find_left_node()->value.first;
+					key_type max = find_right_node()->value.first;
 
 					if (find(k) != this->end())
 						return (find(k));
@@ -358,8 +367,8 @@ namespace ft
 				}
 				const_iterator lower_bound (const key_type& k) const
 				{
-					key_type min = find_lower_node()->value.first;
-					key_type max = find_high_node()->value.first;
+					key_type min = find_left_node()->value.first;
+					key_type max = find_right_node()->value.first;
 
 					if (find(k) != this->end())
 						return (find(k));
@@ -378,8 +387,8 @@ namespace ft
 
 				iterator upper_bound (const key_type& k)
 				{
-					key_type min = find_lower_node()->value.first;
-					key_type max = find_high_node()->value.first;
+					key_type min = find_left_node()->value.first;
+					key_type max = find_right_node()->value.first;
 
 					if (this->_size != 0)
 					{
@@ -398,8 +407,8 @@ namespace ft
 
 				const_iterator upper_bound (const key_type& k) const
 				{
-					key_type min = find_lower_node()->value.first;
-					key_type max = find_high_node()->value.first;
+					key_type min = find_left_node()->value.first;
+					key_type max = find_right_node()->value.first;
 
 					if (this->_size != 0)
 					{
@@ -435,7 +444,6 @@ namespace ft
 
 				ft::pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 				{
-					// std::cout << "PASS CONST\n";
 					ft::pair<const_iterator,const_iterator> ret;
 
 					if (this->empty() == false)
@@ -454,6 +462,21 @@ namespace ft
 				allocator_type get_allocator() const { return (this->_alloc);}
 			private :
 			////////////////// UTILS /////////////////////
+
+				void update_last()
+				{
+					if (this->_root == NULL || this->_size == 0)
+					{
+						this->_last->parent = NULL;
+						this->_last->left = NULL;
+						this->_last->right = NULL;
+						return ;
+					}
+					this->_last->parent = this->_root;
+					this->_last->left = this->_root;
+					this->_last->right = this->_root;
+				}
+
 				void	display_all(Node *root, int space)
 				{
 					if (root == this->_last)
@@ -480,19 +503,19 @@ namespace ft
 					Node *ret = root;
 					while (ret != this->_last)
 					{
-						if (val < ret->value.first)
-							ret = ret->left;
-						else if (val > ret->value.first)
-							ret = ret->right;
-						else
+						if (val == ret->value.first)
 							break;
+						if (this->_comp(val, ret->value.first))
+							ret = ret->left;
+						else
+							ret = ret->right;
 					}
 					if (ret == this->_last)
 						return (this->_last);
 					return (ret);
 				}
 
-				Node *find_lower_node() const
+				Node *find_left_node() const
 				{
 					Node *ret = this->_root;
 					if (ret != this->_last)
@@ -503,7 +526,7 @@ namespace ft
 					return (ret);
 				}
 
-				Node *find_high_node() const
+				Node *find_right_node() const
 				{
 					Node *ret = this->_root;
 					if (ret != this->_last)
@@ -537,33 +560,17 @@ namespace ft
 						while (curent != this->_last)
 						{
 							previous = curent;
-							// if (this->_comp(n->value.first, curent->value.first))
-							// 	curent = curent->left;
-							// else
-							// 	curent = curent->right;
-							if (n->value < curent->value)
+							if (this->_comp(n->value.first, curent->value.first))
 								curent = curent->left;
-							else if (n->value > curent->value)
+							else
 								curent = curent->right;
 						}
-						std::cout << std::boolalpha << "MAP: " << _comp(3, 40) << std::endl;
-
-						// if (this->_comp(n->value.first, previous->value.first))
-						// {
-						// 	previous->left = n;
-						// 	previous->left->parent = previous;
-						// }
-						// else
-						// {
-						// 	previous->right = n;
-						// 	previous->right->parent = previous;
-						// }
-						if (n->value < previous->value)
+						if (this->_comp(n->value.first, previous->value.first))
 						{
 							previous->left = n;
 							previous->left->parent = previous;
 						}
-						if (n->value > previous->value)
+						if (!this->_comp(n->value.first, previous->value.first))
 						{
 							previous->right = n;
 							previous->right->parent = previous;
@@ -574,7 +581,6 @@ namespace ft
 				Node	*create_node()
 				{
 					Node *ret = this->_alloc_node.allocate(1);
-
 					ret->left = this->_last;
 					ret->right = this->_last;
 					ret->parent = NULL;

@@ -32,7 +32,9 @@ void	ft_const_bound(const MAP &mp, const T1 &param)
 
 	std::cout << "\t-- [" << iter++ << "] (const) --" << std::endl;
 	std::cout << "with key [" << param << "]:" << std::endl;
-	it[0] = mp.lower_bound(param); it[1] = mp.upper_bound(param);
+	it[0] = mp.lower_bound(param);
+	it[1] = mp.upper_bound(param);
+	std::cout << "ALLO?????\n";
 	ft_range = mp.equal_range(param);
 	std::cout << "lower_bound: " << (it[0] == ite ? "end()" : printPair(it[0], false)) << std::endl;
 	std::cout << "upper_bound: " << (it[1] == ite ? "end()" : printPair(it[1], false)) << std::endl;
