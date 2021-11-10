@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/06 17:15:06 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/09 21:13:38 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ namespace ft
 				else
 					this->_capacity = n;
 
-				T *ret = this->_alloc.allocate(sizeof (T) * n);
+				T *ret = this->_alloc.allocate(sizeof(T) * n);
 				for (size_t i = 0; i < n; i++)
 				{
 					if (i < this->_size)
@@ -75,7 +75,7 @@ namespace ft
 			explicit vector(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _array(NULL), _size(n), _capacity(n), _alloc(alloc)
 			{
 				//std::cout << "Fill constructor " << _capacity << " " << _size << std::endl;
-				this->_array = this->_alloc.allocate(sizeof (T) * n);
+				this->_array = this->_alloc.allocate(sizeof(T) * n);
 				for (size_type i = 0; i < n; i++)
 					this->_alloc.construct(&(this->_array[i]), val);
 			}
@@ -110,9 +110,9 @@ namespace ft
 
 			~vector(void)
 			{
+				// std::cout << "Destructor" << std::endl;
 				this->clear();
 				this->_alloc.deallocate(this->_array, this->_capacity);
-				// std::cout << "Destructor\n";
 			}
 
 			vector& operator= (const vector& x)
@@ -127,11 +127,25 @@ namespace ft
 				}
 				if (x._array != NULL)
 				{
-					this->_size = x._size;
-					this->_capacity = x._capacity;
-					this->_array = this->_alloc.allocate(sizeof(T) * this->_capacity);
-					for (size_type i = 0; i < _size; i++)
-						this->_alloc.construct(&(this->_array[i]) ,x._array[i]);
+					iterator it = x.begin();
+					T k;
+					while (it != x.end())
+					{
+						k = it.get_ptr();
+						push_back(k);
+						it++;
+					}
+
+					// this->_size = x._size;
+					// this->_capacity = x._capacity;
+					// this->_array = this->_alloc.allocate(sizeof(T) * this->_capacity);
+					// this->clear();
+					// this->_size = x._size;
+					// for (size_type i = 0; i < _size; i++)
+					// {
+					// 	// std::cout << "tmp: "<< &(this->_array[i]) << "	" << &x._array[i] << std::endl;
+					// 	this->_alloc.construct(this->_array[i] ,x._array[i]);
+					// }
 				}
 				return *this;
 			}
@@ -210,8 +224,8 @@ namespace ft
 
 																		// ELEMENTS ACCESS //
 
-			reference operator[] (size_type n) {return this->_array[n];}				//Returns a reference to the element at position n in the vector container.
-			const_reference operator[] (size_type n) const {return this->_array[n];}
+			reference operator[](size_type n) {return this->_array[n];}				//Returns a reference to the element at position n in the vector container.
+			const_reference operator[](size_type n) const {return this->_array[n];}
 
 
 			reference at (size_type n)	// Same as operator[], but at() throw out_of_range exeption if n >= vector::size()
@@ -398,8 +412,6 @@ namespace ft
 					while (last != this->end())
 					{
 						tmp = last;
-						// @@@@@@@@@ ASKIP DOUBLE FREE AVEC CA ! @@@@@@@@@ //
-						// this->_alloc.destroy(&(*first));
 						this->_alloc.construct(&(*first), *tmp);
 						last++;
 						first++;

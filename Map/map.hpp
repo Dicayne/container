@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/08 18:33:29 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/09 14:58:59 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,14 +244,29 @@ namespace ft
 
 				iterator insert (iterator position, const value_type& val) // Insert Single Element with hint to accelerate search
 				{
-					Node *tmp = find_node(this->_root ,val.first);
-					iterator ret = position;
-
-					if (tmp != this->_last)
-						ret = iterator(tmp, this->_last, this->_comp);
-					else
-						ret = insert(val).first;
-					return ret;
+					if (this->_comp(position->first, val.first))
+					{
+						iterator next(position);
+						++next;
+						while (next != this->end() && next->first <= val.first)
+						{
+							++position;
+							++next;
+						}
+					}
+					else if (!this->_comp(position->first, val.first) && position->first != val.first)
+					{
+						iterator previous(position);
+						--previous;
+						while (previous != this->end() && previous->first >= val.first)
+						{
+							--position;
+							--previous;
+						}
+					}
+					if (position != this->end() && val.first == position->first)
+						return position;
+					return iterator(insert(val).first);
 				}
 
 				template <class InputIterator>

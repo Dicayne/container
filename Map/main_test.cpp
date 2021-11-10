@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/09 02:15:41 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/09 18:54:19 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -605,7 +605,7 @@ void test_allocator()
 
 int main()
 {
-	// std::cout << "Namespace = " << NAMS << std::endl;
+	// std::cout << "Namespace = " << NAMS << std::endl; // DEBUG
 	test_member_function();
 	test_iterator();
 	test_capacity();

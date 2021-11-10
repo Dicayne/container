@@ -1,1 +1,0 @@
-rm -rf a.out test_results

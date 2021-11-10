@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:51 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/10/28 18:23:54 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/09 17:40:56 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,17 @@ namespace ft
 	class stack
 	{
 	public:
-		typedef Container							container_type;
-		typedef typename Container::size_type		size_type;
-		typedef typename Container::value_type		value_type;
+		typedef Container	container_type;
+		typedef size_t		size_type;
+		typedef T			value_type;
 
-	protected:
+	private:
 		container_type c;
 
 	public:
 		explicit stack (const container_type& ctnr = container_type()) : c(ctnr) {}
+
+		stack (const stack &stk) : c(stk.c) { }
 
 		bool empty() const{return (this->c.empty());}	// Test whether container is empty
 
