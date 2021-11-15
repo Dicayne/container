@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/09 14:58:59 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/15 15:08:16 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ namespace ft
 				typedef T															mapped_type;
 				typedef ft::pair<const key_type, mapped_type>						value_type;
 				typedef Compare														key_compare;
-				typedef std::less<value_type>										value_compare;
 				typedef Alloc														allocator_type;
 				typedef Tree_node<value_type>										Node;
 
@@ -43,6 +42,28 @@ namespace ft
 				typedef typename ft::map_const_iterator<Key, T, Compare>			const_iterator;
 				typedef typename ft::map_reverse_iterator<Key, T, Compare>			reverse_iterator;
 				typedef typename ft::map_const_reverse_iterator<Key, T, Compare>	const_reverse_iterator;
+
+				class value_compare : public std::binary_function<value_type, value_type, bool>
+				{
+					friend class map;
+
+					protected:
+
+						key_compare comp;
+
+						value_compare(Compare c) : comp(c) {}  // constructed with map's comparison object
+
+					public:
+
+						typedef bool		result_type;
+						typedef value_type  first_argument_type;
+						typedef value_type  second_argument_type;
+
+						bool operator()(const value_type& x, const value_type& y) const
+						{
+							return comp(x.first, y.first);
+						}
+				};
 
 			private:
 
@@ -347,7 +368,7 @@ namespace ft
 																		// OBSERVERS //
 
 				key_compare key_comp() const {return (this->_comp);}
-				value_compare value_comp() const {value_compare vc; return (vc);}
+				value_compare value_comp() const {value_compare vc(this->_comp); return (vc);}
 
 																		// OPERATIONS //
 				iterator find (const key_type& k) { return (iterator(find_node(this->_root, k), this->_last, this->_comp));}

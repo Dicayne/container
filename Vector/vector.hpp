@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/09 21:13:38 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/15 15:22:34 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #include "../Utils/utils.hpp"
 #include "iterator_vec.hpp"
-
+#include <math.h>
 namespace ft
 {
 	// Use Namespace "ft" to differentiate from the STL Vector //
@@ -51,7 +51,8 @@ namespace ft
 				else
 					this->_capacity = n;
 
-				T *ret = this->_alloc.allocate(sizeof(T) * n);
+				T *ret = this->_alloc.allocate(sizeof(T) * this->_capacity);
+
 				for (size_t i = 0; i < n; i++)
 				{
 					if (i < this->_size)
@@ -127,25 +128,12 @@ namespace ft
 				}
 				if (x._array != NULL)
 				{
-					iterator it = x.begin();
-					T k;
-					while (it != x.end())
-					{
-						k = it.get_ptr();
-						push_back(k);
-						it++;
-					}
+					this->_size = x._size;
+					this->_capacity = x._capacity;
 
-					// this->_size = x._size;
-					// this->_capacity = x._capacity;
-					// this->_array = this->_alloc.allocate(sizeof(T) * this->_capacity);
-					// this->clear();
-					// this->_size = x._size;
-					// for (size_type i = 0; i < _size; i++)
-					// {
-					// 	// std::cout << "tmp: "<< &(this->_array[i]) << "	" << &x._array[i] << std::endl;
-					// 	this->_alloc.construct(this->_array[i] ,x._array[i]);
-					// }
+					this->_array = this->_alloc.allocate(sizeof(T) * this->_capacity);
+					for (size_type i = 0; i < this->_size; i++)
+						this->_alloc.construct(&(this->_array[i]) ,x._array[i]);
 				}
 				return *this;
 			}
@@ -170,8 +158,9 @@ namespace ft
 
 			size_type max_size() const // max_size() -> Return maximum size.
 			{
-				allocator_type a;
-				return a.max_size();
+				if (sizeof(value_type) == 1)
+					return static_cast<size_type>(pow(2.0, 64.0) / 2.0) - 1;
+				return(this->_alloc.max_size());
 			}
 
 			void resize (size_type n, value_type val = value_type()) // Change size.
@@ -406,7 +395,6 @@ namespace ft
 			{
 				iterator ret = first;
 				iterator tmp;
-
 				if (last != this->end())
 				{
 					while (last != this->end())

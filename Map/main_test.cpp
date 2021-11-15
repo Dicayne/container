@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/09 18:54:19 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/12 17:28:26 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
 #ifndef mine
 	#include <map>
 	namespace ns = std;
-	#define NAMS "STD"
 
 #else
 	#include "map.hpp"
 	namespace ns = ft;
-	#define NAMS "FT"
 
 #endif
 
@@ -605,7 +603,6 @@ void test_allocator()
 
 int main()
 {
-	// std::cout << "Namespace = " << NAMS << std::endl; // DEBUG
 	test_member_function();
 	test_iterator();
 	test_capacity();
