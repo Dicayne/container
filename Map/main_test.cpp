@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/12 17:28:26 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:13:10 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -601,6 +601,22 @@ void test_allocator()
 	m.get_allocator().deallocate(p,5);
 }
 
+void test_speed()
+{
+	ns::map<int, int>m;
+
+	for (int i = 0; i < 10; ++i)
+	{
+		m.insert(ns::make_pair(rand(), rand()));
+	}
+	m.display();
+	ns::map<int, int>m2(m);
+	m2.display();
+	// std::cout << m.size() << '\t' << m2.size() << '\n';
+	m.clear();
+	m2.clear();
+}
+
 int main()
 {
 	test_member_function();
@@ -611,5 +627,7 @@ int main()
 	test_observers();
 	test_operations();
 	test_allocator();
+	test_speed();
+
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/15 15:00:28 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/16 14:17:09 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -458,7 +458,7 @@ void test_iterator()
 {
 	std::cout << YELLOW << "----TEST ITERATOR BEGIN----\n" << NC;
 	ns::vector<int> vec1;
-
+	ns::vector<int> vec2 (vec1);
 	int random;
 
 	for (size_t i = 0; i < 15; i++)
@@ -474,6 +474,40 @@ void test_iterator()
 	std::cout << CYAN << "--vec1.end() = " << NC << *--vec1.end() << NC << std::endl;
 	std::cout << CYAN << "vec1.rbegin() = " << NC << *vec1.rbegin() << NC << std::endl;
 	std::cout << CYAN << "--vec1.rend() = " << NC << *--vec1.rend() << NC << std::endl << std::endl;
+
+	ns::vector<int>::const_iterator cit1 = vec1.begin();
+	ns::vector<int>::const_iterator cit2 = vec2.begin();
+	ns::vector<int>::iterator it1 = vec1.begin();
+	ns::vector<int>::iterator it2 = vec2.begin();
+
+	std::cout << CYAN << "it_V1 == it_V2 : " << NC << (it1 == it2) << '\n';
+	std::cout << CYAN << "it_V1 != it_V2 : " << NC << (it1 != it2) << '\n';
+	std::cout << CYAN << "it_V1 < it_V2  : " << NC << (it1 < it2) << '\n';
+	std::cout << CYAN << "it_V1 > it_V2  : " << NC << (it1 > it2) << '\n';
+	std::cout << CYAN << "it_V1 <= it_V2 : " << NC << (it1 <= it2) << '\n';
+	std::cout << CYAN << "it_V1 >= it_V2 : " << NC << (it1 >= it2) << "\n\n";
+
+	std::cout << CYAN << "cit_V1 == cit_V2 : " << NC << (cit1 == cit2) << '\n';
+	std::cout << CYAN << "cit_V1 != cit_V2 : " << NC << (cit1 != cit2) << '\n';
+	std::cout << CYAN << "cit_V1 < cit_V2  : " << NC << (cit1 < cit2) << '\n';
+	std::cout << CYAN << "cit_V1 > cit_V2  : " << NC << (cit1 > cit2) << '\n';
+	std::cout << CYAN << "cit_V1 <= cit_V2 : " << NC << (cit1 <= cit2) << '\n';
+	std::cout << CYAN << "cit_V1 >= cit_V2 : " << NC << (cit1 >= cit2) << "\n\n";
+
+	std::cout << CYAN << "it_V1 == cit_V2 : " << NC << (it1 == cit2) << '\n';
+	std::cout << CYAN << "it_V1 != cit_V2 : " << NC << (it1 != cit2) << '\n';
+	std::cout << CYAN << "it_V1 < cit_V2  : " << NC << (it1 < cit2) << '\n';
+	std::cout << CYAN << "it_V1 > cit_V2  : " << NC << (it1 > cit2) << '\n';
+	std::cout << CYAN << "it_V1 <= cit_V2 : " << NC << (it1 <= cit2) << '\n';
+	std::cout << CYAN << "it_V1 >= cit_V2 : " << NC << (it1 >= cit2) << "\n\n";
+
+	std::cout << CYAN << "cit_V1 == it_V2 : " << NC << (cit1 == it2) << '\n';
+	std::cout << CYAN << "cit_V1 != it_V2 : " << NC << (cit1 != it2) << '\n';
+	std::cout << CYAN << "cit_V1 < it_V2  : " << NC << (cit1 < it2) << '\n';
+	std::cout << CYAN << "cit_V1 > it_V2  : " << NC << (cit1 > it2) << '\n';
+	std::cout << CYAN << "cit_V1 <= it_V2 : " << NC << (cit1 <= it2) << '\n';
+	std::cout << CYAN << "cit_V1 >= it_V2 : " << NC << (cit1 >= it2) << "\n\n";
+
 	std::cout << YELLOW << "----TEST ITERATOR END----\n\n" << NC;
 }
 
@@ -530,6 +564,15 @@ void non_member_function_overloads_test()
 	std::cout << YELLOW <<"----NON MEMBER FUNCTION OVERLOAD END----" << NC << std::endl << std::endl;
 }
 
+void test_speed()
+{
+	ns::vector<int>vec(500000000, 42);
+	ns::vector<int>vec2(vec);
+
+	vec.clear();
+	vec2.clear();
+}
+
 int main()
 {
 	std::cout << std::boolalpha; // Used to see bool results as tru instead of 1/0
@@ -541,6 +584,7 @@ int main()
 	allocator_test();
 	test_iterator();
 	non_member_function_overloads_test();
+	test_speed();
 
 	return (0);
 }

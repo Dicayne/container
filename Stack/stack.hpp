@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:51 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/09 17:40:56 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/15 19:14:55 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ namespace ft
 		typedef size_t		size_type;
 		typedef T			value_type;
 
-	private:
+	protected:
 		container_type c;
 
 	public:

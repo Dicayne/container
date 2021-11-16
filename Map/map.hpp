@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:53 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/15 18:44:00 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/16 17:04:04 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,11 +153,11 @@ namespace ft
 					// std::cout << "Operator= Call\n";
 					if (empty() == false)
 						clear();
-					insert(x.begin(), x.end());
 					this->_size = x._size;
 					this->_alloc = x._alloc;
 					this->_comp = x._comp;
 					this->_alloc_node = x._alloc_node;
+					insert(x.begin(), x.end());
 					return (*this);
 				}
 
