@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/16 17:13:10 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/17 18:10:45 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,15 @@
 	namespace ns = ft;
 
 #endif
+
+#define MAX_RAM 42949672960
+#define BUFFER_SIZE 4096
+struct Buffer
+{
+	int idx;
+	char buff[BUFFER_SIZE];
+};
+#define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 std::string display_paire(ns::pair<char, int> p)
 {
@@ -326,7 +335,7 @@ void test_modifiers()
 		m['L'] = 89;
 		display(m);
 
-		std::cout << YELLOW << "m.clear(m1)\n" << NC;
+		std::cout << YELLOW << "m.clear()\n" << NC;
 		m.clear();
 		display(m);
 		std::cout << YELLOW << "m['I'] = 123456789;\n" << NC;
@@ -605,14 +614,12 @@ void test_speed()
 {
 	ns::map<int, int>m;
 
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < COUNT; ++i)
 	{
 		m.insert(ns::make_pair(rand(), rand()));
 	}
-	m.display();
 	ns::map<int, int>m2(m);
-	m2.display();
-	// std::cout << m.size() << '\t' << m2.size() << '\n';
+	std::cout << m.size() << '\t' << m2.size() << '\n';
 	m.clear();
 	m2.clear();
 }
@@ -627,7 +634,9 @@ int main()
 	test_observers();
 	test_operations();
 	test_allocator();
-	test_speed();
 
+	// test_speed(); // Unmute if you want to test execution speed, execute with time ./a.out
+
+	// while(1); // Unmute if you want to test leaks with leaks a.out
 	return (0);
 }
