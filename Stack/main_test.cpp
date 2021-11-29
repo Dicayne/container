@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/13 19:28:39 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 16:22:51 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,10 @@ int main()
 {
 	std::cout << std::boolalpha; // Used to see bool results as true/false instead of 1/0
 
-	constructor_test();
-	info_test();
-	push_pop_test();
-	non_member_function_test();
+	constructor_test();			// Test all constructor
+	info_test();				// Test empty, size, top
+	push_pop_test();			// Test push, pop
+	non_member_function_test();	// Test == != < > <= >= on stack
+	
 	return (0);
 }

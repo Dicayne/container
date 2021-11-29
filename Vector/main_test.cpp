@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/29 16:00:47 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 16:34:35 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -568,13 +568,13 @@ int main()
 {
 	std::cout << std::boolalpha; // Used to see bool results as tru instead of 1/0
 
-	constructor_test();
-	capacity_test();
-	element_access_test();
-	modifier_test();
-	allocator_test();
-	test_iterator();
-	non_member_function_overloads_test();
+	constructor_test();						// Test all constructor
+	capacity_test();						// Test size, capacity, max_size, resize, reserve, empty
+	element_access_test();					// Test [], front, back, at
+	modifier_test();						// Test push_back, pop_back, clear, swap, erase, assign, insert
+	allocator_test();						// Test get_allocator
+	test_iterator();						// Test == != < > <= >= on iterator & const_iterator
+	non_member_function_overloads_test();	// Test == != < > <= >= on vector
 
 	// while(1); // Unmute if you want to test leaks with leaks a.out
 	return (0);

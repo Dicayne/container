@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/29 14:24:23 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 16:28:08 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -603,14 +603,14 @@ void test_allocator()
 
 int main()
 {
-	test_member_function();
-	test_iterator();
-	test_capacity();
-	test_element_access();
-	test_modifiers();
-	test_observers();
-	test_operations();
-	test_allocator();
+	test_member_function();		// Test all constructor, =
+	test_iterator();			// Test begin, end, rbegin, rend
+	test_capacity();			// Test empty, size ,max_size
+	test_element_access();		// Test []
+	test_modifiers();			// Test insert, erase, swap, clear
+	test_observers();			// Test key_comp, value_comp
+	test_operations();			// Test find, count, lower_bound, upper_bound, egal_range
+	test_allocator();			// Test get_allocator
 
 	// while(1); // Unmute if you want to test leaks with leaks a.out
 	return (0);
