@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 13:48:04 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/16 14:17:09 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 16:00:47 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -564,15 +564,6 @@ void non_member_function_overloads_test()
 	std::cout << YELLOW <<"----NON MEMBER FUNCTION OVERLOAD END----" << NC << std::endl << std::endl;
 }
 
-void test_speed()
-{
-	ns::vector<int>vec(500000000, 42);
-	ns::vector<int>vec2(vec);
-
-	vec.clear();
-	vec2.clear();
-}
-
 int main()
 {
 	std::cout << std::boolalpha; // Used to see bool results as tru instead of 1/0
@@ -584,7 +575,7 @@ int main()
 	allocator_test();
 	test_iterator();
 	non_member_function_overloads_test();
-	test_speed();
 
+	// while(1); // Unmute if you want to test leaks with leaks a.out
 	return (0);
 }

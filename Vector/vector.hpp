@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 13:21:46 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/15 15:22:34 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 13:32:44 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,18 +395,21 @@ namespace ft
 			{
 				iterator ret = first;
 				iterator tmp;
-				if (last != this->end())
+				if (first != last)
 				{
-					while (last != this->end())
+					if (last != this->end())
 					{
-						tmp = last;
-						this->_alloc.construct(&(*first), *tmp);
-						last++;
-						first++;
+						while (last != this->end())
+						{
+							tmp = last;
+							this->_alloc.construct(&(*first), *tmp);
+							last++;
+							first++;
+						}
 					}
+					while(first != this->end())
+						this->pop_back();
 				}
-				while(first != this->end())
-					this->pop_back();
 				return (ret);
 			}
 

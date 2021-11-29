@@ -1,7 +1,7 @@
-clang++ -Wall -Wextra -Werror -std=c++98 main_test.cpp -D mine -D uncolored; ./a.out > mine_diff
-rm a.out
-clang++ -Wall -Wextra -Werror -std=c++98 main_test.cpp -D uncolored; ./a.out > std_diff
-rm a.out
+clang++ -Wall -Wextra -Werror -std=c++98 main_test.cpp -D mine -D uncolored -o ft; ./ft > mine_diff
+rm ft
+clang++ -Wall -Wextra -Werror -std=c++98 main_test.cpp -D uncolored -o std; ./std > std_diff
+rm std
 
 diff mine_diff std_diff > result.diff
 

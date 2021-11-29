@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 13:21:33 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/17 18:10:45 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/11/29 14:24:23 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@
 	namespace ns = ft;
 
 #endif
-
-#define MAX_RAM 42949672960
-#define BUFFER_SIZE 4096
-struct Buffer
-{
-	int idx;
-	char buff[BUFFER_SIZE];
-};
-#define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
 std::string display_paire(ns::pair<char, int> p)
 {
@@ -420,22 +411,22 @@ void test_equal_range(char key, ns::map<char, int> m)
 		if (ret.first != m.end())
 			std::cout << "lower bound points to ret: " << ret.first->first << " => " << ret.first->second << "\n";
 		else
-			std::cout << RED << "lower bound points to ret: NOTHING\n";
+			std::cout << RED << "lower bound points to ret: NOTHING\n" << NC;
 
 		if (ret.second != m.end())
 			std::cout << "upper bound points to ret: " << ret.second->first << " => " << ret.second->second << "\n\n";
 		else
-			std::cout << RED << "upper bound points to ret: NOTHING\n\n";
+			std::cout << RED << "upper bound points to ret: NOTHING\n\n" << NC;
 
 		if (const_ret.first != m.end())
 			std::cout << "lower bound points to const_ret: " << const_ret.first->first << " => " << const_ret.first->second << "\n";
 		else
-			std::cout << RED << "lower bound points to const_ret: NOTHING\n";
+			std::cout << RED << "lower bound points to const_ret: NOTHING\n" << NC;
 
 		if (const_ret.second != m.end())
 			std::cout << "upper bound points to const_ret: " << const_ret.second->first << " => " << const_ret.second->second << "\n\n";
 		else
-			std::cout << RED << "upper bound points to ret: NOTHING\n\n";
+			std::cout << RED << "upper bound points to const_ret: NOTHING\n\n" << NC;
 }
 
 void test_lower_upper(char key, ns::map<char, int> m)
@@ -447,11 +438,11 @@ void test_lower_upper(char key, ns::map<char, int> m)
 	std::cout << YELLOW << "itup = m.upper_bound (" << key << ");\n" << NC;
 	itup = m.upper_bound (key);
 	if (itlow == m.end())
-		std::cout << RED << "itlow ---> m.lower_bound(" << key << ") NOTHING NOT LESS THAN key\n";
+		std::cout << RED << "itlow ---> m.lower_bound(" << key << ") NOTHING NOT LESS THAN key\n" << NC;
 	else
 		std::cout << "itlow ---> " << display_paire(*itlow) << std::endl;
 	if (itup == m.end())
-		std::cout << RED << "itup ----> m.upper_bound(" << key << ") NOTHING UPPER THAN key\n";
+		std::cout << RED << "itup ----> m.upper_bound(" << key << ") NOTHING UPPER THAN key\n" << NC;
 	else
 		std::cout << "itup ----> " << display_paire(*itup) << std::endl;
 }
@@ -465,11 +456,11 @@ void test_lower_upper_const(char key, ns::map<char, int> m)
 	std::cout << YELLOW << "const_itup = m.upper_bound (" << key << ");\n" << NC;
 	const_itup = m.upper_bound (key);
 	if (const_itlow == m.end())
-		std::cout << RED << "const_itlow ---> m.lower_bound(" << key << ") NOTHING NOT LESS THAN key\n";
+		std::cout << RED << "const_itlow ---> m.lower_bound(" << key << ") NOTHING NOT LESS THAN key\n" << NC;
 	else
 		std::cout << "const_itlow ---> " << display_paire(*const_itlow) << std::endl;
 	if (const_itup == m.end())
-		std::cout << RED << "const_itup ----> m.upper_bound(" << key << ") NOTHING UPPER THAN key\n";
+		std::cout << RED << "const_itup ----> m.upper_bound(" << key << ") NOTHING UPPER THAN key\n" << NC;
 	else
 		std::cout << "const_itup ----> " << display_paire(*const_itup) << std::endl;
 }
@@ -610,20 +601,6 @@ void test_allocator()
 	m.get_allocator().deallocate(p,5);
 }
 
-void test_speed()
-{
-	ns::map<int, int>m;
-
-	for (int i = 0; i < COUNT; ++i)
-	{
-		m.insert(ns::make_pair(rand(), rand()));
-	}
-	ns::map<int, int>m2(m);
-	std::cout << m.size() << '\t' << m2.size() << '\n';
-	m.clear();
-	m2.clear();
-}
-
 int main()
 {
 	test_member_function();
@@ -634,8 +611,6 @@ int main()
 	test_observers();
 	test_operations();
 	test_allocator();
-
-	// test_speed(); // Unmute if you want to test execution speed, execute with time ./a.out
 
 	// while(1); // Unmute if you want to test leaks with leaks a.out
 	return (0);
