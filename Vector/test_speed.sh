@@ -9,10 +9,10 @@ NC='\033[0m'
 echo "${CYAN}This test take approximatly 1min\n${NC}"
 
 echo "${YELLOW}Time of ft:${NC}\ntime ./ft_speed\n"
-time ./std_speed
+time ./ft_speed
 
 echo "-----------------------------------\n${YELLOW}Time of std:${NC}\ntime ./std_speed\n"
-time ./ft_speed
+time ./std_speed
 
 echo "\n${CYAN}COMPARE REAL TIME.${NC}"
 

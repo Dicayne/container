@@ -6,7 +6,7 @@
 /*   By: vmoreau <vmoreau@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/29 13:43:21 by vmoreau           #+#    #+#             */
-/*   Updated: 2021/11/29 15:15:34 by vmoreau          ###   ########.fr       */
+/*   Updated: 2021/12/02 19:00:33 by vmoreau          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,19 @@ int main()
 	{
 		m1.insert(ns::make_pair(rand(), rand()));
 	}
+
 	ns::map<int, int>m2(m1);
-	std::cout << PURPLE << "Size = Number of nodes in BST\n" << NC << "Size of m1: " << m1.size() << "\nSize of m2: " << m2.size() << '\n';
+
+	if (m1 == m2)
+		std::cout << "M1 and M2 are equal after copy\n\n";
+	else
+		std::cout << "There is difference between M1 and M2 after cpy\n\n";
+
+	std::cout << PURPLE << "Size = Number of nodes in BST\n" << NC << "Size of m1: " << m1.size() << "\nSize of m2: " << m2.size() << "\n\nClear m1 and m2\n\n";
+
 	m1.clear();
 	m2.clear();
+
+	std::cout << "Size of m1: " << m1.size() << "\nSize of m2: " << m2.size() << "\n";
 	return (0);
 }
